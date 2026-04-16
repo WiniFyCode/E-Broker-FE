@@ -1,6 +1,5 @@
 import { Button } from "@workspace/ui/components/button";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -18,18 +17,21 @@ import Link from "next/link";
 
 const RegisterForm = () => {
   return (
-    <section className="bg-foreground dark:bg-background h-screen relative flex items-center justify-center overflow-auto">
-      <div className="pointer-events-none absolute inset-0 right-0 overflow-hidden md:block hidden">
-        {/* Outer big circle */}
-        <div className="absolute left-1/1 top-0 h-650 w-650 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10" />
-        {/* Inner circle */}
-        <div className="absolute left-1/1 top-0 h-175 w-175 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground dark:bg-background" />
+    <section className="h-screen flex overflow-hidden">
+      {/* Left side - Image 60% */}
+      <div className="hidden lg:flex lg:w-[60%] relative bg-muted">
+        <img
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&auto=format&fit=crop"
+          alt="Register background"
+          className="w-full h-full object-cover"
+        />
       </div>
 
-      <div className="max-w-lg px-4 sm:px-0 mx-auto w-full">
-        <Card className="max-w-lg px-6 py-8 sm:p-12 relative">
-          <CardHeader className="text-center gap-6 p-0">
-            <div className="mx-auto">
+      {/* Right side - Register Form 40% */}
+      <div className="w-full lg:w-[40%] flex flex-col items-center justify-center bg-background p-8 overflow-auto">
+        <div className="w-full max-w-md space-y-6">
+          <CardHeader className="space-y-6 p-0">
+            <div>
               <a href="">
                 <img
                   src="https://images.shadcnspace.com/assets/logo/logo-icon-black.svg"
@@ -66,27 +68,25 @@ const RegisterForm = () => {
                       alt="google icon"
                       className="h-4 w-4"
                     />
-                    Sign up with Google
+                    Google
                   </Button>
                   <Button
                     variant="outline"
                     type="button"
                     className="text-sm text-medium text-card-foreground gap-2 cursor-pointer dark:bg-background rounded-lg h-9 shadow-xs"
                   >
-                    <img
-                      src="https://images.shadcnspace.com/assets/svgs/icon-github.svg"
-                      alt="github icon"
-                      className="dark:hidden  h-4 w-4"
-                    />
-                    <img
-                      src="https://images.shadcnspace.com/assets/svgs/icon-github-white.svg"
-                      alt="github icon"
-                      className="hidden dark:block  h-4 w-4"
-                    />
-                    Sign up with Github
+                    <svg
+                      className="h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="#1877F2"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
                   </Button>
                 </Field>
-                <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card text-sm text-muted-foreground bg-transparent">
+                <FieldSeparator className="text-sm text-muted-foreground">
                   <span className="px-4">or sign up with</span>
                 </FieldSeparator>
 
@@ -156,7 +156,7 @@ const RegisterForm = () => {
               </FieldGroup>
             </form>
           </CardContent>
-        </Card>
+        </div>
       </div>
     </section>
   );

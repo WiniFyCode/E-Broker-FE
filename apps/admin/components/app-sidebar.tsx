@@ -12,6 +12,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@workspace/ui/components/sidebar"
 import {
   BarChart3,
@@ -47,6 +48,10 @@ const data = {
   ],
   navMain: [
     {
+      isSection: true,
+      label: "MAIN",
+    },
+    {
       title: "Dashboard",
       url: "/dashboard",
       icon: <BarChart3 />,
@@ -61,6 +66,10 @@ const data = {
           url: "/dashboard/analytics",
         },
       ],
+    },
+    {
+      isSection: true,
+      label: "MANAGEMENT",
     },
     {
       title: "User Management",
@@ -156,6 +165,10 @@ const data = {
       ],
     },
     {
+      isSection: true,
+      label: "REPORTS & SETTINGS",
+    },
+    {
       title: "Reports",
       url: "#",
       icon: <ChartPie />,
@@ -199,6 +212,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [searchQuery, setSearchQuery] = React.useState("")
+  const { open } = useSidebar()
 
   // Lọc menu items dựa trên từ khóa tìm kiếm và đánh dấu để mở menu
   const filteredNavMain = React.useMemo(() => {
@@ -206,45 +220,57 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     const query = searchQuery.toLowerCase()
 
-    return data.navMain.reduce((acc: any[], item) => {
-      // Kiểm tra xem title có khớp không
-      const titleMatches = item.title?.toLowerCase().includes(query)
+    // Hàm đệ quy để filter items ở mọi cấp và đánh dấu để mở
+    const filterItemsRecursive = (items: any[]): any[] => {
+      return items.reduce((acc: any[], item) => {
+        // Nếu là section, luôn giữ lại
+        if (item.isSection) {
+          acc.push(item)
+          return acc
+        }
 
-      // Kiểm tra xem có items nào khớp không
-      const filteredItems = item.items?.filter((subItem: any) =>
-        subItem.title?.toLowerCase().includes(query)
-      )
+        const titleMatches = item.title?.toLowerCase().includes(query)
 
-      // Thêm item nếu title khớp hoặc có items khớp
-      if (titleMatches || (filteredItems && filteredItems.length > 0)) {
-        acc.push({
-          ...item,
-          items: filteredItems && filteredItems.length > 0 ? filteredItems : item.items,
-          // Tự động mở menu nếu title khớp hoặc có sub-items khớp
-          isActive: true,
-        })
-      }
+        // Đệ quy filter children
+        const filteredChildren = item.items ? filterItemsRecursive(item.items) : []
 
-      return acc
-    }, [])
+        // Giữ item nếu:
+        // 1. Title khớp với query
+        // 2. Có children khớp với query
+        if (titleMatches || filteredChildren.length > 0) {
+          acc.push({
+            ...item,
+            items: filteredChildren.length > 0 ? filteredChildren : item.items,
+            // Tự động mở menu nếu có kết quả (cho cả parent và submenu)
+            isActive: true,
+          })
+        }
+
+        return acc
+      }, [])
+    }
+
+    return filterItemsRecursive(data.navMain)
   }, [searchQuery])
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
-        {/* Thanh tìm kiếm */}
-        <div className="px-2 py-2">
-          <div className="relative">
-            <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search menu..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 h-9"
-            />
+        {/* Thanh tìm kiếm - chỉ hiển thị khi sidebar mở */}
+        {open && (
+          <div className="px-2 py-2">
+            <div className="relative">
+              <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search menu..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-8 h-9"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={filteredNavMain} />

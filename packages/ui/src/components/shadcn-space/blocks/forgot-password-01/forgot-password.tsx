@@ -1,6 +1,5 @@
 import { Button } from "@workspace/ui/components/button";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -12,17 +11,21 @@ import Link from "next/link";
 
 const ForgotPassword = () => {
   return (
-    <section className="bg-foreground dark:bg-background h-screen flex items-center justify-center relative overflow-auto">
-      <div className="pointer-events-none absolute inset-0 right-0 overflow-hidden md:block hidden">
-        {/* Outer big circle */}
-        <div className="absolute left-1/1 top-0 h-650 w-650 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10" />
-        {/* Inner circle */}
-        <div className="absolute left-1/1 top-0 h-175 w-175 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground dark:bg-background" />
+    <section className="h-screen flex overflow-hidden">
+      {/* Left side - Image 60% */}
+      <div className="hidden lg:flex lg:w-[60%] relative bg-muted">
+        <img
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&auto=format&fit=crop"
+          alt="Forgot password background"
+          className="w-full h-full object-cover"
+        />
       </div>
-      <div className="max-w-lg px-4 sm:px-0 mx-auto w-full">
-        <Card className="px-6 py-8 sm:p-12 relative gap-6">
-          <CardHeader className="text-center gap-6 p-0">
-            <div className="mx-auto">
+
+      {/* Right side - Forgot Password Form 40% */}
+      <div className="w-full lg:w-[40%] flex flex-col items-center justify-center bg-background p-8 overflow-auto">
+        <div className="w-full max-w-md space-y-6">
+          <CardHeader className="space-y-6 p-0">
+            <div>
               <a href="">
                 <img
                   src="https://images.shadcnspace.com/assets/logo/logo-icon-black.svg"
@@ -84,7 +87,7 @@ const ForgotPassword = () => {
               </FieldGroup>
             </form>
           </CardContent>
-        </Card>
+        </div>
       </div>
     </section>
   );
