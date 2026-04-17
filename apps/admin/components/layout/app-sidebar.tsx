@@ -26,7 +26,7 @@ import {
   LayoutPanelTop,
   Languages,
   GalleryVerticalEndIcon,
-  SearchIcon
+  Search
 } from "lucide-react"
 import { Input } from "@workspace/ui/components/input"
 
@@ -261,7 +261,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {open && (
           <div className="px-2 py-2">
             <div className="relative">
-              <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search menu..."
                 value={searchQuery}

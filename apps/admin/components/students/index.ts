@@ -1,0 +1,5 @@
+export { StudentsTable } from "./students-table"
+export { AddStudentDialog } from "./add-student-dialog"
+export { EditStudentDialog } from "./edit-student-dialog"
+export { StudentProgressModal } from "./student-progress-modal"
+export { StudentsStats } from "./students-stats"

@@ -1,8 +1,8 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@workspace/ui/components/sidebar";
 import { Separator } from "@workspace/ui/components/separator";
-import { SiteHeader } from "@/components/site-header";
-import { DynamicBreadcrumb } from "@/components/dynamic-breadcrumb";
+import { SiteHeader } from "@/components/layout/site-header";
+import { DynamicBreadcrumb } from "@/components/layout/dynamic-breadcrumb";
 import { ReactNode } from "react";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {

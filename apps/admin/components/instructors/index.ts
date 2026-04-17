@@ -1,0 +1,5 @@
+export { InstructorsTable } from "./instructors-table"
+export { AddInstructorDialog } from "./add-instructor-dialog"
+export { EditInstructorDialog } from "./edit-instructor-dialog"
+export { InstructorCoursesModal } from "./instructor-courses-modal"
+export { InstructorsStats } from "./instructors-stats"
