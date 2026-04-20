@@ -1,0 +1,17 @@
+{
+  "name": "@workspace/sdk",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "main": "./src/index.ts",
+  "devDependencies": {
+    "@workspace/typescript-config": "workspace:*",
+    "@types/node": "^25.1.0",
+    "typescript": "^5.9.3"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./types": "./src/types.ts"
+  }
+}
