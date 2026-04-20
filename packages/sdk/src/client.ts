@@ -1,15 +1,44 @@
 import { ApiError } from "./types.js"
+import { AuthService } from "./services/auth.service.js"
+import { CoursesService } from "./services/courses.service.js"
+import { MailsService } from "./services/mails.service.js"
+import { SlidesService } from "./services/slides.service.js"
+import { GamesService } from "./services/games.service.js"
+import { UsersService } from "./services/users.service.js"
 
-const DEFAULT_HEADERS = {
+const DEFAULT_HEADERS: Record<string, string> = {
   "Content-Type": "application/json",
 }
 
 export class ApiClient {
   private baseUrl: string
+  private token: string | null = null
+
+  // ─── Services ──────────────────────────────────────────────────────────────
+  public readonly auth: AuthService
+  public readonly courses: CoursesService
+  public readonly mails: MailsService
+  public readonly slides: SlidesService
+  public readonly games: GamesService
+  public readonly users: UsersService
 
   constructor(baseUrl?: string) {
     this.baseUrl =
-      baseUrl || process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api"
+      baseUrl ||
+      `${process.env.NEXT_PUBLIC_API_URL}/${process.env.NEXT_PUBLIC_API_VERSION}` ||
+      "http://localhost:3000/v1"
+
+    this.auth = new AuthService(this)
+    this.courses = new CoursesService(this)
+    this.mails = new MailsService(this)
+    this.slides = new SlidesService(this)
+    this.games = new GamesService(this)
+    this.users = new UsersService(this)
+  }
+
+  /** Set Bearer token for authenticated requests */
+  setToken(token: string | null) {
+    this.token = token
   }
 
   private async request<T>(
@@ -18,9 +47,13 @@ export class ApiClient {
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`
 
-    const headers = {
+    const headers: Record<string, string> = {
       ...DEFAULT_HEADERS,
-      ...options.headers,
+      ...(options.headers as Record<string, string>),
+    }
+
+    if (this.token) {
+      headers["Authorization"] = `Bearer ${this.token}`
     }
 
     try {
@@ -63,7 +96,7 @@ export class ApiClient {
     return this.request<T>(endpoint, { ...options, method: "GET" })
   }
 
-  post<T>(endpoint: string, body?: any, options?: RequestInit) {
+  post<T>(endpoint: string, body?: unknown, options?: RequestInit) {
     return this.request<T>(endpoint, {
       ...options,
       method: "POST",
@@ -71,7 +104,7 @@ export class ApiClient {
     })
   }
 
-  put<T>(endpoint: string, body?: any, options?: RequestInit) {
+  put<T>(endpoint: string, body?: unknown, options?: RequestInit) {
     return this.request<T>(endpoint, {
       ...options,
       method: "PUT",
@@ -79,7 +112,7 @@ export class ApiClient {
     })
   }
 
-  patch<T>(endpoint: string, body?: any, options?: RequestInit) {
+  patch<T>(endpoint: string, body?: unknown, options?: RequestInit) {
     return this.request<T>(endpoint, {
       ...options,
       method: "PATCH",
