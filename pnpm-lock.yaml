@@ -195,6 +195,18 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  packages/api:
+    devDependencies:
+      '@types/node':
+        specifier: ^25.1.0
+        version: 25.6.0
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/eslint-config:
     devDependencies:
       '@eslint/js':
