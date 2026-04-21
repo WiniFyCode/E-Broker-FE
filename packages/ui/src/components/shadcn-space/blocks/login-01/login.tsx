@@ -1,19 +1,112 @@
-import { Button } from "@workspace/ui/components/button";
-import { CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card";
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { Button } from "@workspace/ui/components/button"
+import { CardContent, CardDescription, CardHeader, CardTitle } from "@workspace/ui/components/card"
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@workspace/ui/components/field";
-import { Input } from "@workspace/ui/components/input";
-import { Checkbox } from "@workspace/ui/components/checkbox";
-import Link from "next/link";
+} from "@workspace/ui/components/field"
+import { Input } from "@workspace/ui/components/input"
+import { Checkbox } from "@workspace/ui/components/checkbox"
+import { apiClient } from "@workspace/sdk/client"
+import type { AuthResponse, LoginDto } from "@workspace/sdk/types/auth"
+import { saveAuthSession } from "@workspace/sdk/auth/session"
 
-const LoginForm = () => {
+type LoginFormProps = {
+  appName?: string
+  title?: string
+  description?: string
+  redirectTo?: string
+  brandName?: string
+  heroTitle?: string
+  heroDescription?: string
+}
+
+type LoginFormValues = {
+  email: string
+  password: string
+  rememberMe: boolean
+}
+
+function getErrorMessage(error: unknown) {
+  if (typeof error !== "object" || error === null) {
+    return "Unable to sign in right now."
+  }
+
+  if ("message" in error) {
+    const message = (error as { message?: string | string[] }).message
+
+    if (Array.isArray(message)) {
+      return message.join(", ")
+    }
+
+    if (typeof message === "string") {
+      return message
+    }
+  }
+
+  return "Unable to sign in right now."
+}
+
+const LoginForm = ({
+  appName = "E-Broker",
+  title = "Welcome back!",
+  description = "Good to see you again. Let's get you signed in.",
+  redirectTo = "/",
+  brandName = "E-Broker",
+  heroTitle = "Welcome back",
+  heroDescription = "Pick up right where you left off and keep making progress.",
+}: LoginFormProps = {}) => {
+  const router = useRouter()
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
+  const [formValues, setFormValues] = React.useState<LoginFormValues>({
+    email: "",
+    password: "",
+    rememberMe: true,
+  })
+
+  const mutation = useMutation<AuthResponse, unknown, LoginDto>({
+    mutationFn: (credentials) => apiClient.auth.login(credentials),
+    onSuccess: (response) => {
+      saveAuthSession(response)
+      if (formValues.rememberMe) {
+        localStorage.setItem("auth_session", JSON.stringify(response))
+      }
+      router.replace(redirectTo)
+    },
+    onError: (error) => {
+      setErrorMessage(getErrorMessage(error))
+    },
+  })
+
+  function updateField<K extends keyof LoginFormValues>(
+    key: K,
+    value: LoginFormValues[K]
+  ) {
+    setFormValues((current) => ({
+      ...current,
+      [key]: value,
+    }))
+  }
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setErrorMessage(null)
+    mutation.mutate({
+      email: formValues.email,
+      password: formValues.password,
+    })
+  }
+
   return (
-    <section className="h-screen flex overflow-hidden">
+    <section className="min-h-screen flex overflow-hidden">
       {/* Left side - Image 60% */}
       <div className="hidden lg:flex lg:w-[60%] relative bg-muted">
         <img
@@ -21,6 +114,20 @@ const LoginForm = () => {
           alt="Login background"
           className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/60 via-slate-900/25 to-transparent" />
+        <div className="absolute right-0 bottom-0 left-0 p-10">
+          <div className="max-w-lg space-y-4">
+            <p className="text-sm font-medium tracking-[0.3em] text-sky-300 uppercase">
+              {appName}
+            </p>
+            <h1 className="text-4xl leading-tight font-semibold text-white">
+              {heroTitle}
+            </h1>
+            <p className="text-base leading-7 text-slate-200/90">
+              {heroDescription}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Right side - Login Form 40% */}
@@ -28,30 +135,30 @@ const LoginForm = () => {
         <div className="w-full max-w-md space-y-6">
           <CardHeader className="space-y-6 p-0">
             <div>
-              <a href="">
+              <Link href="/">
                 <img
                   src="https://images.shadcnspace.com/assets/logo/logo-icon-black.svg"
-                  alt="shadcnspace"
+                  alt={brandName}
                   className="dark:hidden h-10 w-10"
                 />
                 <img
                   src="https://images.shadcnspace.com/assets/logo/logo-icon-white.svg"
-                  alt="shadcnspace"
+                  alt={brandName}
                   className="hidden dark:block h-10 w-10"
                 />
-              </a>
+              </Link>
             </div>
             <div className="flex flex-col gap-1">
               <CardTitle className="text-2xl font-medium text-card-foreground">
-                Welcome to Shadcn Space
+                {title}
               </CardTitle>
               <CardDescription className="text-sm text-muted-foreground font-normal">
-                Login to your account now
+                {description}
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="p-0">
-            <form>
+            <form onSubmit={handleSubmit}>
               <FieldGroup className="gap-6">
                 <Field className="grid md:grid-cols-2 md:gap-6 gap-3">
                   <Button
@@ -93,9 +200,13 @@ const LoginForm = () => {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="example@shadcnspace.com"
+                      value={formValues.email}
+                      placeholder="example@ebroker.com"
                       required
                       className="dark:bg-background h-9 shadow-xs"
+                      onChange={(event) =>
+                        updateField("email", event.target.value)
+                      }
                     />
                   </Field>
                   <Field className="gap-1.5">
@@ -109,9 +220,13 @@ const LoginForm = () => {
                     <Input
                       id="password"
                       type="password"
+                      value={formValues.password}
                       placeholder="Enter your password"
                       required
                       className="dark:bg-background h-9 shadow-xs"
+                      onChange={(event) =>
+                        updateField("password", event.target.value)
+                      }
                     />
                   </Field>
                 </div>
@@ -120,8 +235,11 @@ const LoginForm = () => {
                   <div className="flex items-center gap-3">
                     <Checkbox
                       id="terms"
-                      defaultChecked
+                      checked={formValues.rememberMe}
                       className="cursor-pointer"
+                      onCheckedChange={(checked) =>
+                        updateField("rememberMe", checked === true)
+                      }
                     />
                     <FieldLabel
                       htmlFor="terms"
@@ -138,9 +256,20 @@ const LoginForm = () => {
                   </Link>
                 </Field>
 
+                {errorMessage ? (
+                  <p className="rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                    {errorMessage}
+                  </p>
+                ) : null}
+
                 <Field className="gap-4">
-                  <Button type="submit" size={"lg"} className="rounded-lg h-10 hover:bg-primary/80 cursor-pointer">
-                    Sign in
+                  <Button
+                    type="submit"
+                    size={"lg"}
+                    className="rounded-lg h-10 hover:bg-primary/80 cursor-pointer"
+                    disabled={mutation.isPending}
+                  >
+                    {mutation.isPending ? "Signing in..." : "Sign in"}
                   </Button>
                   <FieldDescription className="text-center text-sm font-normal text-muted-foreground">
                     Don&apos;t have an account?{" "}
@@ -158,7 +287,7 @@ const LoginForm = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

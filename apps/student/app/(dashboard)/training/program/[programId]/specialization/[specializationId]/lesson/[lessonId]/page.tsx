@@ -1,4 +1,4 @@
-  import { getLessonById, getSpecializationById, getProgramById } from "@/lib/training-data"
+import { getLessonById, getSpecializationById, getProgramById } from "@/lib/training-data"
 import { notFound } from "next/navigation"
 import { LessonPlayer } from "@/components/lesson-player"
 

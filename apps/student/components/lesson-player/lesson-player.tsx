@@ -1,20 +1,32 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import Link from "next/link"
 import { Lesson, Game } from "@/lib/training-types"
+import { GameResult } from "./games/framework/types"
 import {
   X,
   ArrowLeft,
   ArrowRight,
-  WorkspacePremium,
-  Lightbulb,
-  CheckCircle2,
-  XCircle,
-  RotateCcw,
+  Award,
   Trophy,
   Zap,
 } from "lucide-react"
+// TODO: Re-enable games when ready
+// import {
+//   Quiz,
+//   FillBlank,
+//   Match,
+//   Sequence,
+//   Hotspot,
+//   LabelImage,
+//   MemoryFlip,
+//   WordScramble,
+//   Crossword,
+//   Swipe,
+//   Branching,
+//   TimedSprint,
+// } from "../games"
 
 interface LessonPlayerProps {
   lesson: Lesson
@@ -30,75 +42,169 @@ export function LessonPlayer({
   onComplete,
 }: LessonPlayerProps) {
   const [currentGameIndex, setCurrentGameIndex] = useState(lesson.lastGameIndex)
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null)
   const [showResult, setShowResult] = useState(false)
-  const [isCorrect, setIsCorrect] = useState(false)
-  const [score, setScore] = useState(0)
+  const [gameScore, setGameScore] = useState(0)
   const [streak, setStreak] = useState(1)
+  const [isCompleted, setIsCompleted] = useState(false)
+  const [gameResults, setGameResults] = useState<GameResult[]>([])
 
   const currentGame = lesson.games[currentGameIndex]
   const progress = Math.round(
     ((currentGameIndex + (showResult ? 1 : 0)) / lesson.games.length) * 100
   )
 
-  const handleSelectAnswer = (index: number) => {
-    if (showResult) return
-    setSelectedAnswer(index)
-  }
+  const handleGameComplete = useCallback(
+    (result: GameResult) => {
+      setShowResult(true)
+      setGameResults((prev) => [...prev, result])
 
-  const handleSubmit = () => {
-    if (selectedAnswer === null) return
+      if (result.isPassed) {
+        setGameScore((prev) => prev + result.score * streak)
+        setStreak((prev) => prev + 1)
+      } else {
+        setStreak(1)
+      }
+    },
+    [streak]
+  )
 
-    const correct = currentGame.content.correctAnswer === selectedAnswer
-    setIsCorrect(correct)
-    setShowResult(true)
-
-    if (correct) {
-      setScore((prev) => prev + 100 * streak)
-      setStreak((prev) => prev + 1)
-    } else {
-      setStreak(1)
-    }
-  }
-
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentGameIndex < lesson.games.length - 1) {
       setCurrentGameIndex((prev) => prev + 1)
-      setSelectedAnswer(null)
       setShowResult(false)
-      setIsCorrect(false)
     } else {
+      setIsCompleted(true)
       onComplete?.()
     }
-  }
+  }, [currentGameIndex, lesson.games.length, onComplete])
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (currentGameIndex > 0) {
       setCurrentGameIndex((prev) => prev - 1)
-      setSelectedAnswer(null)
       setShowResult(false)
-      setIsCorrect(false)
     }
+  }, [currentGameIndex])
+
+  const handleRetry = useCallback(() => {
+    setShowResult(false)
+  }, [])
+
+  const renderGame = () => {
+    // TODO: Re-enable games when ready
+    return (
+      <div className="text-center py-12 text-gray-500">
+        <p className="text-lg font-medium">Game components are temporarily disabled</p>
+        <p className="text-sm mt-2">Game type: {currentGame.type}</p>
+      </div>
+    )
   }
 
-  const getOptionStyle = (index: number) => {
-    const base =
-      "group bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 text-left border-2 flex items-center gap-4"
-
-    if (showResult) {
-      if (index === currentGame.content.correctAnswer) {
-        return `${base} border-green-500 bg-green-50`
-      }
-      if (index === selectedAnswer && !isCorrect) {
-        return `${base} border-red-500 bg-red-50`
-      }
-      return `${base} border-gray-200 opacity-60`
+  /* Temporarily disabled game rendering logic
+  const renderGameOriginal = () => {
+    const config = {
+      gameId: currentGame.id,
+      title: currentGame.title,
+      instruction: `Hoàn thành game này để tiếp tục`,
+      passThreshold: currentGame.passThreshold,
+      maxRetries: currentGame.maxRetries || 3,
     }
 
-    if (selectedAnswer === index) {
-      return `${base} border-[#0040a1] bg-blue-50`
+    const state = {
+      status: showResult ? ("submitted" as const) : ("playing" as const),
+      score: 0,
+      maxScore: 100,
+      userAnswer: null,
+      isCorrect: null,
+      feedback: null,
+      attempts: 0,
+      startTime: Date.now(),
     }
-    return `${base} border-transparent hover:border-[#0040a1]/20`
+
+    const actions = {
+      setAnswer: (_answer: unknown) => {},
+      submit: () => {},
+      next: handleNext,
+      retry: handleRetry,
+      reset: () => {},
+    }
+
+    const commonProps = { config, state, actions }
+
+    switch (currentGame.type) {
+      case "quiz":
+        return <Quiz {...commonProps} content={currentGame.content} />
+      case "fill-blank":
+        return <FillBlank {...commonProps} content={currentGame.content} />
+      case "match":
+        return <Match {...commonProps} content={currentGame.content} />
+      case "sequence":
+        return <Sequence {...commonProps} content={currentGame.content} />
+      case "hotspot":
+        return <Hotspot {...commonProps} content={currentGame.content} />
+      case "label":
+        return <LabelImage {...commonProps} content={currentGame.content} />
+      case "memory":
+        return <MemoryFlip {...commonProps} content={currentGame.content} />
+      case "word-scramble":
+        return <WordScramble {...commonProps} content={currentGame.content} />
+      case "crossword":
+        return <Crossword {...commonProps} content={currentGame.content} />
+      case "swipe":
+        return <Swipe {...commonProps} content={currentGame.content} />
+      case "branching":
+        return <Branching {...commonProps} content={currentGame.content} />
+      case "timed-sprint":
+        return <TimedSprint {...commonProps} content={currentGame.content} />
+      default:
+        return (
+          <div className="text-center py-12 text-gray-500">
+            Game type "{currentGame.type}" not implemented yet
+          </div>
+        )
+    }
+  }
+  */
+
+  if (isCompleted) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f9fa] px-6">
+        <div className="bg-white p-12 rounded-3xl shadow-lg max-w-lg w-full text-center">
+          <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Award className="w-12 h-12 text-green-600" />
+          </div>
+
+          <h1 className="text-3xl font-bold text-[#191c1d] mb-4">
+            Chúc mừng!
+          </h1>
+
+          <p className="text-[#424654] mb-8">
+            Bạn đã hoàn thành bài học "{lesson.title}"
+          </p>
+
+          <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="bg-[#f8f9fa] p-4 rounded-xl">
+              <p className="text-3xl font-bold text-[#0040a1]">{gameScore}</p>
+              <p className="text-sm text-[#737785]">Tổng điểm</p>
+            </div>
+            <div className="bg-[#f8f9fa] p-4 rounded-xl">
+              <p className="text-3xl font-bold text-green-600">
+                {gameResults.filter((r) => r.isPassed).length}/
+                {gameResults.length}
+              </p>
+              <p className="text-sm text-[#737785]">Game đã qua</p>
+            </div>
+          </div>
+
+          <Link
+            href="/training/program/prog-1"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold bg-[#0040a1] text-white hover:bg-[#0056d2] transition-all"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Quay về chương trình
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -149,7 +255,7 @@ export function LessonPlayer({
             {/* Score */}
             <div className="flex items-center gap-2">
               <Zap className="w-5 h-5 text-[#ff9800]" fill="#ff9800" />
-              <span className="font-bold text-[#ff9800]">{score}</span>
+              <span className="font-bold text-[#ff9800]">{gameScore}</span>
             </div>
 
             {/* Streak */}
@@ -167,180 +273,7 @@ export function LessonPlayer({
 
       {/* Main Content */}
       <main className="flex-grow flex items-center justify-center px-6 pt-24 pb-32">
-        <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-          {/* Question Card */}
-          <div className="md:col-span-7 bg-white p-8 md:p-12 rounded-3xl shadow-sm relative overflow-hidden border border-[#e7e8e9]">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-[#0040a1]/5 rounded-bl-full" />
-
-            <div className="relative z-10">
-              <span className="text-xs font-bold text-[#0040a1] bg-[#0040a1]/10 px-3 py-1 rounded-full uppercase tracking-wider mb-6 inline-block">
-                {currentGame.type === "quiz"
-                  ? "Kiểm Tra Kiến Thức"
-                  : currentGame.type === "fill-blank"
-                    ? "Điền Từ"
-                    : "Ghép Cặp"}
-              </span>
-
-              <h2 className="text-3xl md:text-4xl font-bold leading-tight text-[#191c1d] mb-6">
-                {currentGame.content.question}
-              </h2>
-
-              <p className="text-[#424654] leading-relaxed text-lg mb-8">
-                {currentGame.type === "fill-blank" && currentGame.content.text}
-              </p>
-
-              {/* Image hint if available */}
-              {currentGame.type === "quiz" && currentGame.content.image && (
-                <div className="rounded-2xl overflow-hidden h-48 bg-[#f3f4f5] relative">
-                  <img
-                    alt="Hint"
-                    src={currentGame.content.image}
-                    className="w-full h-full object-cover opacity-80"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Options Bento Grid */}
-          <div className="md:col-span-5 grid grid-cols-1 gap-4 h-full">
-            {currentGame.type === "quiz" &&
-              currentGame.content.options?.map((option: string, idx: number) => (
-                <button
-                  key={idx}
-                  onClick={() => handleSelectAnswer(idx)}
-                  className={getOptionStyle(idx)}
-                  disabled={showResult}
-                >
-                  <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold transition-colors ${
-                      showResult
-                        ? idx === currentGame.content.correctAnswer
-                          ? "bg-green-500 text-white"
-                          : idx === selectedAnswer && !isCorrect
-                            ? "bg-red-500 text-white"
-                            : "bg-[#e7e8e9] text-[#737785]"
-                        : selectedAnswer === idx
-                          ? "bg-[#0040a1] text-white"
-                          : "bg-[#f3f4f5] text-[#0040a1] group-hover:bg-[#0040a1] group-hover:text-white"
-                    }`}
-                  >
-                    {String.fromCharCode(65 + idx)}
-                  </div>
-                  <span className="font-semibold text-[#191c1d] flex-1">
-                    {option}
-                  </span>
-                  {showResult && idx === currentGame.content.correctAnswer && (
-                    <CheckCircle2 className="w-6 h-6 text-green-500" />
-                  )}
-                  {showResult &&
-                    idx === selectedAnswer &&
-                    !isCorrect && (
-                      <XCircle className="w-6 h-6 text-red-500" />
-                    )}
-                </button>
-              ))}
-
-            {/* Fill blank input */}
-            {currentGame.type === "fill-blank" && (
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Nhập đáp án..."
-                  className="w-full p-4 rounded-xl border-2 border-[#e7e8e9] focus:border-[#0040a1] outline-none text-lg"
-                  value={selectedAnswer === null ? "" : selectedAnswer}
-                  onChange={(e) => {
-                    const idx = currentGame.content.options?.indexOf(e.target.value) ?? -1
-                    setSelectedAnswer(idx >= 0 ? idx : 0)
-                  }}
-                />
-                <button
-                  onClick={handleSubmit}
-                  className="w-full bg-[#0040a1] text-white py-4 rounded-xl font-bold hover:bg-[#0056d2] transition-colors"
-                >
-                  Kiểm Tra
-                </button>
-              </div>
-            )}
-
-            {/* Match pairs */}
-            {currentGame.type === "match" && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  {currentGame.content.pairs?.map((pair: any, idx: number) => (
-                    <div key={idx} className="bg-white p-4 rounded-xl border border-[#e7e8e9]">
-                      <span className="font-semibold text-[#0040a1]">{pair.trai}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Hint Widget */}
-            <div className="mt-2 p-4 rounded-2xl bg-[#e7e8e9]/60 backdrop-blur-sm border border-white/20 flex items-start gap-4">
-              <Lightbulb className="w-5 h-5 text-[#ff9800]" />
-              <div>
-                <p className="text-[11px] font-bold text-[#ff9800] uppercase tracking-wider mb-1">
-                  Gợi Ý
-                </p>
-                <p className="text-xs text-[#424654] font-medium leading-snug">
-                  {currentGame.type === "quiz"
-                    ? "Hãy suy nghĩ kỹ về từng lựa chọn trước khi trả lời."
-                    : "Điền từ còn thiếu vào chỗ trống."}
-                </p>
-              </div>
-            </div>
-
-            {/* Submit Button (for quiz) */}
-            {currentGame.type === "quiz" && !showResult && (
-              <button
-                onClick={handleSubmit}
-                disabled={selectedAnswer === null}
-                className={`w-full py-4 rounded-xl font-bold transition-all mt-4 ${
-                  selectedAnswer === null
-                    ? "bg-[#e7e8e9] text-[#737785] cursor-not-allowed"
-                    : "bg-[#0040a1] text-white hover:bg-[#0056d2] active:scale-[0.98]"
-                }`}
-              >
-                Xác Nhận Đáp Án
-              </button>
-            )}
-
-            {/* Result Feedback */}
-            {showResult && (
-              <div
-                className={`p-6 rounded-2xl mt-4 ${
-                  isCorrect
-                    ? "bg-green-50 border border-green-200"
-                    : "bg-red-50 border border-red-200"
-                }`}
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  {isCorrect ? (
-                    <CheckCircle2 className="w-8 h-8 text-green-500" />
-                  ) : (
-                    <XCircle className="w-8 h-8 text-red-500" />
-                  )}
-                  <span
-                    className={`font-bold text-xl ${
-                      isCorrect ? "text-green-600" : "text-red-600"
-                    }`}
-                  >
-                    {isCorrect ? "Chính Xác!" : "Chưa Đúng"}
-                  </span>
-                </div>
-                {!isCorrect && (
-                  <p className="text-sm text-[#424654]">
-                    Đáp án đúng là:{" "}
-                    <span className="font-semibold">
-                      {currentGame.content.options[currentGame.content.correctAnswer]}
-                    </span>
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
+        {renderGame()}
       </main>
 
       {/* Bottom Action Bar */}
@@ -381,9 +314,9 @@ export function LessonPlayer({
           {/* Next Button */}
           <button
             onClick={handleNext}
-            disabled={!showResult && currentGame.type === "quiz"}
+            disabled={!showResult}
             className={`flex items-center gap-2 px-10 py-3 rounded-full font-bold transition-all active:scale-95 ${
-              showResult || currentGame.type !== "quiz"
+              showResult
                 ? "bg-[#0040a1] text-white hover:bg-[#0056d2]"
                 : "bg-[#c3c6d6]/30 text-[#737785] cursor-not-allowed"
             }`}

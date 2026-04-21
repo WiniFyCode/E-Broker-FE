@@ -1,23 +1,115 @@
-import { Button } from "@workspace/ui/components/button";
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { Button } from "@workspace/ui/components/button"
 import {
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card";
+} from "@workspace/ui/components/card"
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@workspace/ui/components/field";
-import { Input } from "@workspace/ui/components/input";
-import Link from "next/link";
+} from "@workspace/ui/components/field"
+import { Input } from "@workspace/ui/components/input"
+import { apiClient } from "@workspace/sdk/client"
+import type { AuthResponse, RegisterDto } from "@workspace/sdk/types/auth"
+import { saveAuthSession } from "@workspace/sdk/auth/session"
 
-const RegisterForm = () => {
+type RegisterFormProps = {
+  appName?: string
+  title?: string
+  description?: string
+  redirectTo?: string
+  brandName?: string
+  heroTitle?: string
+  heroDescription?: string
+}
+
+type RegisterFormValues = {
+  fullName: string
+  email: string
+  password: string
+}
+
+function getErrorMessage(error: unknown) {
+  if (typeof error !== "object" || error === null) {
+    return "Unable to sign up right now."
+  }
+
+  if ("message" in error) {
+    const message = (error as { message?: string | string[] }).message
+
+    if (Array.isArray(message)) {
+      return message.join(", ")
+    }
+
+    if (typeof message === "string") {
+      return message
+    }
+  }
+
+  return "Unable to sign up right now."
+}
+
+const RegisterForm = ({
+  appName = "E-Broker",
+  title = "Let's get you started!",
+  description = "Create your account in just a few steps",
+  redirectTo = "/",
+  brandName = "E-Broker",
+  heroTitle = "Join us today",
+  heroDescription = "Start your journey with us. Create an account and unlock all the features.",
+}: RegisterFormProps = {}) => {
+  const router = useRouter()
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
+  const [formValues, setFormValues] = React.useState<RegisterFormValues>({
+    fullName: "",
+    email: "",
+    password: "",
+  })
+
+  const mutation = useMutation<AuthResponse, unknown, RegisterDto>({
+    mutationFn: (payload) => apiClient.auth.register(payload),
+    onSuccess: (response) => {
+      saveAuthSession(response)
+      localStorage.setItem("auth_session", JSON.stringify(response))
+      router.replace(redirectTo)
+    },
+    onError: (error) => {
+      setErrorMessage(getErrorMessage(error))
+    },
+  })
+
+  function updateField<K extends keyof RegisterFormValues>(
+    key: K,
+    value: RegisterFormValues[K]
+  ) {
+    setFormValues((current) => ({
+      ...current,
+      [key]: value,
+    }))
+  }
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setErrorMessage(null)
+    mutation.mutate({
+      fullName: formValues.fullName,
+      email: formValues.email,
+      password: formValues.password,
+    })
+  }
+
   return (
-    <section className="h-screen flex overflow-hidden">
+    <section className="min-h-screen flex overflow-hidden">
       {/* Left side - Image 60% */}
       <div className="hidden lg:flex lg:w-[60%] relative bg-muted">
         <img
@@ -25,6 +117,20 @@ const RegisterForm = () => {
           alt="Register background"
           className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/60 via-slate-900/25 to-transparent" />
+        <div className="absolute right-0 bottom-0 left-0 p-10">
+          <div className="max-w-lg space-y-4">
+            <p className="text-sm font-medium tracking-[0.3em] text-sky-300 uppercase">
+              {appName}
+            </p>
+            <h1 className="text-4xl leading-tight font-semibold text-white">
+              {heroTitle}
+            </h1>
+            <p className="text-base leading-7 text-slate-200/90">
+              {heroDescription}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Right side - Register Form 40% */}
@@ -32,30 +138,30 @@ const RegisterForm = () => {
         <div className="w-full max-w-md space-y-6">
           <CardHeader className="space-y-6 p-0">
             <div>
-              <a href="">
+              <Link href="/">
                 <img
                   src="https://images.shadcnspace.com/assets/logo/logo-icon-black.svg"
-                  alt="shadcnspace"
+                  alt={brandName}
                   className="dark:hidden h-10 w-10"
                 />
                 <img
                   src="https://images.shadcnspace.com/assets/logo/logo-icon-white.svg"
-                  alt="shadcnspace"
+                  alt={brandName}
                   className="hidden dark:block h-10 w-10"
                 />
-              </a>
+              </Link>
             </div>
             <div className="flex flex-col gap-1">
               <CardTitle className="text-2xl font-medium text-card-foreground">
-                Signup to Shadcn Space
+                {title}
               </CardTitle>
               <CardDescription className="text-sm text-muted-foreground font-normal">
-                Signup to your account now
+                {description}
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="p-0">
-            <form>
+            <form onSubmit={handleSubmit}>
               <FieldGroup className="gap-6">
                 <Field className="grid md:grid-cols-2 md:gap-6 gap-3">
                   <Button
@@ -94,17 +200,21 @@ const RegisterForm = () => {
                 <div className="flex flex-col gap-4">
                   <Field className="gap-1.5">
                     <FieldLabel
-                      htmlFor="name"
+                      htmlFor="fullName"
                       className="text-sm text-muted-foreground font-normal"
                     >
                       Name*
                     </FieldLabel>
                     <Input
-                      id="text"
+                      id="fullName"
                       type="text"
+                      value={formValues.fullName}
                       placeholder="enter your name"
                       required
                       className="dark:bg-background shadow-xs h-9"
+                      onChange={(event) =>
+                        updateField("fullName", event.target.value)
+                      }
                     />
                   </Field>
                   <Field className="gap-1.5">
@@ -117,9 +227,13 @@ const RegisterForm = () => {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="example@shadcnspace.com"
+                      value={formValues.email}
+                      placeholder="example@ebroker.com"
                       required
                       className="dark:bg-background shadow-xs h-9"
+                      onChange={(event) =>
+                        updateField("email", event.target.value)
+                      }
                     />
                   </Field>
                   <Field className="gap-1.5">
@@ -133,16 +247,31 @@ const RegisterForm = () => {
                     <Input
                       id="password"
                       type="password"
+                      value={formValues.password}
                       placeholder="Enter your password"
                       required
                       className="dark:bg-background shadow-xs h-9"
+                      onChange={(event) =>
+                        updateField("password", event.target.value)
+                      }
                     />
                   </Field>
                 </div>
 
+                {errorMessage ? (
+                  <p className="rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                    {errorMessage}
+                  </p>
+                ) : null}
+
                 <Field className="gap-4">
-                  <Button type="submit" size={"lg"} className="rounded-lg cursor-pointer h-10 hover:bg-primary/80">
-                    Sign up
+                  <Button
+                    type="submit"
+                    size={"lg"}
+                    className="rounded-lg cursor-pointer h-10 hover:bg-primary/80"
+                    disabled={mutation.isPending}
+                  >
+                    {mutation.isPending ? "Signing up..." : "Sign up"}
                   </Button>
                   <FieldDescription className="text-center text-sm font-normal text-muted-foreground">
                     Already have an account?{" "}
@@ -160,7 +289,7 @@ const RegisterForm = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default RegisterForm;
+export default RegisterForm

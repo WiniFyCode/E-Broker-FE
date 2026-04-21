@@ -116,7 +116,8 @@ export default function LoginForm({
 
   return (
     <section className="flex min-h-screen overflow-hidden bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
-      <div className="relative hidden lg:flex lg:w-[58%]">
+      <div className="relative hidden lg:flex lg:w-[60%]">
+
         <img
           src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&auto=format&fit=crop"
           alt="Login background"
@@ -138,7 +139,8 @@ export default function LoginForm({
         </div>
       </div>
 
-      <div className="flex w-full flex-1 items-center justify-center bg-background px-6 py-10 text-foreground lg:w-[42%] lg:px-10">
+      <div className="flex w-full flex-1 items-center justify-center bg-background px-6 py-10 text-foreground lg:w-[40%] lg:px-10">
+
         <div className="w-full max-w-md space-y-6">
           <CardHeader className="space-y-6 p-0">
             <div>
