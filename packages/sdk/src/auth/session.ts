@@ -1,55 +1,52 @@
-import type { AuthResponse } from "../types/auth.types"
+import type { AuthResponse, AuthUser, AuthTokens } from "../types/auth.types"
+import { apiClient } from "../client"
 
-export const AUTH_SESSION_STORAGE_KEY = "ebroker.auth.session"
+let inMemorySession: AuthResponse | null = null
 
-function isBrowser() {
-  return typeof window !== "undefined"
+export function saveAuthSession(session: AuthResponse) {
+  inMemorySession = session
+  if (session?.tokens?.accessToken) {
+    apiClient.setToken(session.tokens.accessToken)
+  }
 }
 
-function getStorage(remember: boolean) {
-  if (!isBrowser()) {
-    return null
-  }
-
-  return remember ? window.localStorage : window.sessionStorage
-}
-
-export function saveAuthSession(session: AuthResponse, remember = true) {
-  const storage = getStorage(remember)
-  if (!storage) {
-    return
-  }
-
-  storage.setItem(AUTH_SESSION_STORAGE_KEY, JSON.stringify(session))
-}
-
-export function loadAuthSession() {
-  if (!isBrowser()) {
-    return null
-  }
-
-  const persistent = window.localStorage.getItem(AUTH_SESSION_STORAGE_KEY)
-  if (persistent) {
-    return JSON.parse(persistent) as AuthResponse
-  }
-
-  const session = window.sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY)
-  if (session) {
-    return JSON.parse(session) as AuthResponse
-  }
-
-  return null
+export function loadAuthSession(): AuthResponse | null {
+  return inMemorySession
 }
 
 export function clearAuthSession() {
-  if (!isBrowser()) {
-    return
-  }
-
-  window.localStorage.removeItem(AUTH_SESSION_STORAGE_KEY)
-  window.sessionStorage.removeItem(AUTH_SESSION_STORAGE_KEY)
+  inMemorySession = null
+  apiClient.setToken(null)
 }
 
-export function getStoredAccessToken() {
-  return loadAuthSession()?.tokens.accessToken ?? null
+export function getStoredAccessToken(): string | null {
+  return inMemorySession?.tokens.accessToken ?? null
+}
+
+export async function initAuthSession(): Promise<AuthResponse | null> {
+  try {
+    const res = await apiClient.auth.refresh({ refreshToken: "" })
+
+    if (res.tokens?.accessToken) {
+      apiClient.setToken(res.tokens.accessToken)
+
+      try {
+        const user = await apiClient.auth.me()
+        const session: AuthResponse = {
+          user,
+          tokens: res.tokens,
+        }
+        saveAuthSession(session)
+        return session
+      } catch (meError) {
+        clearAuthSession()
+        return null
+      }
+    }
+
+    return null
+  } catch (error) {
+    clearAuthSession()
+    return null
+  }
 }
