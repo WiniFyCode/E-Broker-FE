@@ -13,6 +13,7 @@
     ".": "./src/index.ts",
     "./client": "./src/client.ts",
     "./types": "./src/types.ts",
+    "./auth/session": "./src/auth/session.ts",
     "./types/error-code": "./src/types/error-code.ts",
     "./services/auth": "./src/services/auth.service.ts",
     "./services/courses": "./src/services/courses.service.ts",

@@ -1,9 +1,9 @@
-import type { ErrorCode } from "./types/error-code.js"
+import type { ErrorCode } from "./types/error-code"
 
 export interface ApiError {
   statusCode: number
   errorCode: ErrorCode | "CONNECTION_ERROR"
-  message: string
+  message: string | string[]
   timestamp: string
   path: string
 }

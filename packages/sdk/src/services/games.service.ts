@@ -1,5 +1,5 @@
-import { BaseService } from "./base.service.js"
-import type { SubmitGameDto, SubmitGameResponse } from "../types/games.types.js"
+import { BaseService } from "./base.service"
+import type { SubmitGameDto, SubmitGameResponse } from "../types/games.types"
 
 export class GamesService extends BaseService {
   submit(data: SubmitGameDto) {

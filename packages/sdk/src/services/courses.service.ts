@@ -1,10 +1,10 @@
-import { BaseService } from "./base.service.js"
+import { BaseService } from "./base.service"
 import type {
   Course,
   CreateCourseDto,
   PaginationQuery,
   UpdateCourseBrandingDto,
-} from "../types/courses.types.js"
+} from "../types/courses.types"
 
 export class CoursesService extends BaseService {
   create(data: CreateCourseDto) {

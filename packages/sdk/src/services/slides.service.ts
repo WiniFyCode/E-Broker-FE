@@ -1,10 +1,10 @@
-import { BaseService } from "./base.service.js"
+import { BaseService } from "./base.service"
 import type {
   CreateSlideDto,
   ReorderSlidesDto,
   Slide,
   SlideFilterQuery,
-} from "../types/slides.types.js"
+} from "../types/slides.types"
 
 export class SlidesService extends BaseService {
   create(data: CreateSlideDto) {

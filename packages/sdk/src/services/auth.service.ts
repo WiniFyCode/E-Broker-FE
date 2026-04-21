@@ -1,5 +1,4 @@
-import { BaseService } from "./base.service.js"
-import type {
+import {
   AuthResponse,
   AuthUser,
   LoginDto,
@@ -7,7 +6,8 @@ import type {
   RefreshDto,
   RefreshResponse,
   RegisterDto,
-} from "../types/auth.types.js"
+} from "src/types/auth.types"
+import { BaseService } from "./base.service"
 
 export class AuthService extends BaseService {
   register(data: RegisterDto) {

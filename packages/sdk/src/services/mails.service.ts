@@ -1,8 +1,8 @@
-import { BaseService } from "./base.service.js"
+import { BaseService } from "./base.service"
 import type {
   DemoConfirmationResponse,
   SendDemoConfirmMailDto,
-} from "../types/mails.types.js"
+} from "../types/mails.types"
 
 export class MailsService extends BaseService {
   demoConfirmation(data: SendDemoConfirmMailDto) {

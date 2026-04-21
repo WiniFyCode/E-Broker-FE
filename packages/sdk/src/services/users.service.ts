@@ -1,4 +1,4 @@
-import { BaseService } from "./base.service.js"
+import { BaseService } from "./base.service"
 
 export interface CreateUserDto {
   [key: string]: unknown

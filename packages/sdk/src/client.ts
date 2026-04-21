@@ -1,10 +1,10 @@
-import { ApiError } from "./types.js"
-import { AuthService } from "./services/auth.service.js"
-import { CoursesService } from "./services/courses.service.js"
-import { MailsService } from "./services/mails.service.js"
-import { SlidesService } from "./services/slides.service.js"
-import { GamesService } from "./services/games.service.js"
-import { UsersService } from "./services/users.service.js"
+import { ApiError } from "./types"
+import { AuthService } from "./services/auth.service"
+import { CoursesService } from "./services/courses.service"
+import { MailsService } from "./services/mails.service"
+import { SlidesService } from "./services/slides.service"
+import { GamesService } from "./services/games.service"
+import { UsersService } from "./services/users.service"
 
 const DEFAULT_HEADERS: Record<string, string> = {
   "Content-Type": "application/json",
@@ -23,10 +23,12 @@ export class ApiClient {
   public readonly users: UsersService
 
   constructor(baseUrl?: string) {
-    this.baseUrl =
-      baseUrl ||
-      `${process.env.NEXT_PUBLIC_API_URL}/${process.env.NEXT_PUBLIC_API_VERSION}` ||
-      "http://localhost:3000/v1"
+    const apiUrl = (
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api"
+    ).replace(/\/$/, "")
+    const apiVersion = process.env.NEXT_PUBLIC_API_VERSION?.replace(/^\//, "")
+
+    this.baseUrl = baseUrl || (apiVersion ? `${apiUrl}/${apiVersion}` : apiUrl)
 
     this.auth = new AuthService(this)
     this.courses = new CoursesService(this)
