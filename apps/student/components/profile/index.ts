@@ -1,0 +1,7 @@
+export { ProfileSidebar } from "./profile-sidebar"
+export { ProfileOverview } from "./profile-overview"
+export { ProfilePersonalInfo } from "./profile-personal-info"
+export { ProfileWorkInfo } from "./profile-work-info"
+export { ProfileCourses } from "./profile-courses"
+export { ProfileCertificates } from "./profile-certificates"
+export { ProfileSettings } from "./profile-settings"
