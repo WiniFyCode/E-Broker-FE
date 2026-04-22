@@ -4,29 +4,21 @@ import { useState, useCallback } from "react"
 import Link from "next/link"
 import { Lesson, Game } from "@/lib/training-types"
 import { GameResult } from "./games/framework/types"
+import { X, ArrowLeft, ArrowRight, Award, Trophy, Zap } from "lucide-react"
 import {
-  X,
-  ArrowLeft,
-  ArrowRight,
-  Award,
-  Trophy,
-  Zap,
-} from "lucide-react"
-// TODO: Re-enable games when ready
-// import {
-//   Quiz,
-//   FillBlank,
-//   Match,
-//   Sequence,
-//   Hotspot,
-//   LabelImage,
-//   MemoryFlip,
-//   WordScramble,
-//   Crossword,
-//   Swipe,
-//   Branching,
-//   TimedSprint,
-// } from "../games"
+  Quiz,
+  FillBlank,
+  Match,
+  Sequence,
+  Hotspot,
+  LabelImage,
+  MemoryFlip,
+  WordScramble,
+  Crossword,
+  Swipe,
+  Branching,
+  TimedSprint,
+} from "./games"
 
 interface LessonPlayerProps {
   lesson: Lesson
@@ -49,6 +41,15 @@ export function LessonPlayer({
   const [gameResults, setGameResults] = useState<GameResult[]>([])
 
   const currentGame = lesson.games[currentGameIndex]
+
+  if (!currentGame) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg text-slate-600">Không tìm thấy game</p>
+      </div>
+    )
+  }
+
   const progress = Math.round(
     ((currentGameIndex + (showResult ? 1 : 0)) / lesson.games.length) * 100
   )
@@ -90,80 +91,55 @@ export function LessonPlayer({
   }, [])
 
   const renderGame = () => {
-    // TODO: Re-enable games when ready
-    return (
-      <div className="text-center py-12 text-gray-500">
-        <p className="text-lg font-medium">Game components are temporarily disabled</p>
-        <p className="text-sm mt-2">Game type: {currentGame.type}</p>
-      </div>
-    )
-  }
-
-  /* Temporarily disabled game rendering logic
-  const renderGameOriginal = () => {
-    const config = {
-      gameId: currentGame.id,
-      title: currentGame.title,
-      instruction: `Hoàn thành game này để tiếp tục`,
-      passThreshold: currentGame.passThreshold,
-      maxRetries: currentGame.maxRetries || 3,
+    const gameProps = {
+      content: currentGame.content,
+      onComplete: (isCorrect: boolean, score: number) => {
+        handleGameComplete({
+          gameId: currentGame.id,
+          score,
+          maxScore: 100,
+          isPassed: isCorrect,
+          attempts: 1,
+          timeSpent: 0,
+        })
+      },
     }
-
-    const state = {
-      status: showResult ? ("submitted" as const) : ("playing" as const),
-      score: 0,
-      maxScore: 100,
-      userAnswer: null,
-      isCorrect: null,
-      feedback: null,
-      attempts: 0,
-      startTime: Date.now(),
-    }
-
-    const actions = {
-      setAnswer: (_answer: unknown) => {},
-      submit: () => {},
-      next: handleNext,
-      retry: handleRetry,
-      reset: () => {},
-    }
-
-    const commonProps = { config, state, actions }
 
     switch (currentGame.type) {
       case "quiz":
-        return <Quiz {...commonProps} content={currentGame.content} />
+        return <Quiz {...gameProps} />
       case "fill-blank":
-        return <FillBlank {...commonProps} content={currentGame.content} />
+        return <FillBlank {...gameProps} />
       case "match":
-        return <Match {...commonProps} content={currentGame.content} />
+        return <Match {...gameProps} />
       case "sequence":
-        return <Sequence {...commonProps} content={currentGame.content} />
+        return <Sequence {...gameProps} />
       case "hotspot":
-        return <Hotspot {...commonProps} content={currentGame.content} />
+        return <Hotspot {...gameProps} />
       case "label":
-        return <LabelImage {...commonProps} content={currentGame.content} />
+        return <LabelImage {...gameProps} />
       case "memory":
-        return <MemoryFlip {...commonProps} content={currentGame.content} />
+        return <MemoryFlip {...gameProps} />
       case "word-scramble":
-        return <WordScramble {...commonProps} content={currentGame.content} />
+        return <WordScramble {...gameProps} />
       case "crossword":
-        return <Crossword {...commonProps} content={currentGame.content} />
+        return <Crossword {...gameProps} />
       case "swipe":
-        return <Swipe {...commonProps} content={currentGame.content} />
+        return <Swipe {...gameProps} />
       case "branching":
-        return <Branching {...commonProps} content={currentGame.content} />
+        return <Branching {...gameProps} />
       case "timed-sprint":
-        return <TimedSprint {...commonProps} content={currentGame.content} />
+        return <TimedSprint {...gameProps} />
       default:
         return (
           <div className="text-center py-12 text-gray-500">
-            Game type "{currentGame.type}" not implemented yet
+            <p className="text-lg font-medium">
+              Game type "{currentGame.type}" not yet implemented
+            </p>
           </div>
         )
     }
   }
-  */
 
   if (isCompleted) {
     return (
@@ -210,61 +186,46 @@ export function LessonPlayer({
   return (
     <div className="min-h-screen flex flex-col bg-[#f8f9fa]">
       {/* Top Navigation Bar */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-[0_10px_30px_rgba(0,64,161,0.04)]">
-        <div className="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
-          <div className="flex items-center gap-4">
+      <header className="fixed top-0 left-0 w-full z-50 bg-white border-b border-slate-200">
+        <div className="flex justify-between items-center w-full px-4 md:px-6 py-3 max-w-7xl mx-auto">
+          {/* Left: Back + Title */}
+          <div className="flex items-center gap-3 flex-1 min-w-0">
             <Link
               href="/training/program/prog-1"
-              className="p-2 hover:bg-blue-50/50 transition-all duration-300 rounded-full flex items-center justify-center"
+              className="p-2 hover:bg-slate-100 transition-colors rounded-lg flex items-center justify-center shrink-0"
             >
-              <X className="w-6 h-6 text-[#0040a1]" />
+              <X className="w-5 h-5 text-slate-600" />
             </Link>
-            <div className="flex flex-col">
-              <h1 className="font-bold tracking-tight text-slate-900 text-lg">
+            <div className="flex flex-col min-w-0">
+              <h1 className="font-bold text-slate-900 text-sm md:text-base truncate">
                 {lesson.title}
               </h1>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <span className="text-[10px] font-medium text-slate-500 hidden sm:block">
                 {specializationTitle}
               </span>
             </div>
           </div>
 
-          {/* Game Progress & Score */}
-          <div className="flex items-center gap-6">
-            {/* Progress dots */}
-            <div className="flex items-center gap-3 bg-[#edeeef] px-4 py-2 rounded-full">
-              <div className="flex -space-x-1">
-                {lesson.games.map((_, idx) => (
-                  <div
-                    key={idx}
-                    className={`w-2 h-2 rounded-full ${
-                      idx < currentGameIndex
-                        ? "bg-[#0040a1]"
-                        : idx === currentGameIndex
-                          ? "bg-[#0056d2]"
-                          : "bg-[#c3c6d6]"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-xs font-bold text-[#0040a1]">
-                {currentGameIndex + 1} / {lesson.games.length}
+          {/* Right: Progress + Score */}
+          <div className="flex items-center gap-3 md:gap-4 shrink-0">
+            {/* Progress indicator */}
+            <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg">
+              <span className="text-xs font-bold text-slate-600">
+                {currentGameIndex + 1}/{lesson.games.length}
               </span>
             </div>
 
             {/* Score */}
-            <div className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-[#ff9800]" fill="#ff9800" />
-              <span className="font-bold text-[#ff9800]">{gameScore}</span>
+            <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-lg">
+              <Zap className="w-4 h-4 text-amber-500" fill="#f59e0b" />
+              <span className="text-xs font-bold text-amber-600">{gameScore}</span>
             </div>
 
-            {/* Streak */}
+            {/* Streak - hidden on mobile */}
             {streak > 1 && (
-              <div className="flex items-center gap-1 bg-[#ff9800]/10 px-3 py-1 rounded-full">
-                <Trophy className="w-4 h-4 text-[#ff9800]" />
-                <span className="text-xs font-bold text-[#ff9800]">
-                  {streak}x Streak
-                </span>
+              <div className="hidden md:flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-lg">
+                <Trophy className="w-4 h-4 text-amber-500" />
+                <span className="text-xs font-bold text-amber-600">{streak}x</span>
               </div>
             )}
           </div>
@@ -272,73 +233,94 @@ export function LessonPlayer({
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center px-6 pt-24 pb-32">
+      <main className="flex-grow flex items-center justify-center px-4 md:px-6 pt-20 pb-24">
         {renderGame()}
       </main>
 
       {/* Bottom Action Bar */}
-      <footer className="fixed bottom-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between gap-8">
-          {/* Previous Button */}
-          <button
-            onClick={handlePrevious}
-            disabled={currentGameIndex === 0}
-            className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all active:scale-95 ${
-              currentGameIndex === 0
-                ? "bg-[#e7e8e9] text-[#737785] cursor-not-allowed"
-                : "bg-[#f3f4f5] text-[#0040a1] hover:bg-[#e7e8e9]"
-            }`}
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span>Quay Lại</span>
-          </button>
-
-          {/* Centered Progress Bar */}
-          <div className="flex-grow max-w-xl hidden md:block">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                Tiến Độ Bài Học
+      <footer className="fixed bottom-0 left-0 w-full z-50 bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4">
+          {/* Progress Bar - Full width on mobile, centered on desktop */}
+          <div className="mb-3 md:hidden">
+            <div className="flex justify-between items-center mb-1.5">
+              <span className="text-[10px] font-medium text-slate-500">
+                Tiến độ
               </span>
-              <span className="text-[10px] font-bold text-[#0040a1] uppercase tracking-widest">
-                {progress}% Hoàn Thành
+              <span className="text-[10px] font-bold text-blue-600">
+                {progress}%
               </span>
             </div>
-            <div className="h-2 w-full bg-[#e1e3e4] rounded-full overflow-hidden">
+            <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#0040a1] to-[#0056d2] rounded-full transition-all duration-500"
+                className="h-full bg-blue-600 rounded-full transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
-          {/* Next Button */}
-          <button
-            onClick={handleNext}
-            disabled={!showResult}
-            className={`flex items-center gap-2 px-10 py-3 rounded-full font-bold transition-all active:scale-95 ${
-              showResult
-                ? "bg-[#0040a1] text-white hover:bg-[#0056d2]"
-                : "bg-[#c3c6d6]/30 text-[#737785] cursor-not-allowed"
-            }`}
-          >
-            <span>
-              {currentGameIndex === lesson.games.length - 1
-                ? "Hoàn Thành"
-                : "Tiếp Theo"}
-            </span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
+          {/* Action Buttons */}
+          <div className="flex items-center justify-between gap-3">
+            {/* Previous Button */}
+            <button
+              onClick={handlePrevious}
+              disabled={currentGameIndex === 0}
+              className={`flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 rounded-lg font-bold text-sm transition-all ${
+                currentGameIndex === 0
+                  ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                  : "bg-slate-100 text-slate-700 hover:bg-slate-200 active:scale-95"
+              }`}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">Quay lại</span>
+            </button>
+
+            {/* Progress Bar - Desktop only */}
+            <div className="flex-grow max-w-md hidden md:block">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="text-[10px] font-medium text-slate-500">
+                  Tiến độ bài học
+                </span>
+                <span className="text-[10px] font-bold text-blue-600">
+                  {progress}%
+                </span>
+              </div>
+              <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-blue-600 rounded-full transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Next Button */}
+            <button
+              onClick={handleNext}
+              disabled={!showResult}
+              className={`flex items-center gap-2 px-6 md:px-10 py-2.5 md:py-3 rounded-lg font-bold text-sm transition-all ${
+                showResult
+                  ? "bg-blue-600 text-white hover:bg-blue-700 active:scale-95"
+                  : "bg-slate-200 text-slate-400 cursor-not-allowed"
+              }`}
+            >
+              <span>
+                {currentGameIndex === lesson.games.length - 1
+                  ? "Hoàn thành"
+                  : "Tiếp theo"}
+              </span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </footer>
 
       {/* Achievement Toast */}
       {streak >= 2 && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 bg-[#ffdcbe] px-5 py-3 rounded-full shadow-lg border border-[#ff9800]/10 animate-bounce">
-          <div className="w-8 h-8 rounded-lg bg-[#ff9800] flex items-center justify-center">
-            <Zap className="w-5 h-5 text-white" />
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 bg-amber-50 px-4 py-2 rounded-lg shadow-lg border border-amber-200">
+          <div className="w-6 h-6 rounded-lg bg-amber-500 flex items-center justify-center">
+            <Zap className="w-4 h-4 text-white" />
           </div>
-          <span className="font-bold text-[#653900] text-sm">
-            {streak}x Streak Active!
+          <span className="font-bold text-amber-900 text-sm">
+            {streak}x Streak!
           </span>
         </div>
       )}
