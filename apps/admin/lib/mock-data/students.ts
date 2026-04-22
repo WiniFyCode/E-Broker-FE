@@ -4,7 +4,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-1",
     name: "John Doe",
-    email: "john.doe@example.com",
+    email: "john.doe@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-01",
     grade_level: "Intermediate",
@@ -18,7 +18,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-2",
     name: "Alice Smith",
-    email: "alice.smith@example.com",
+    email: "alice.smith@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-15",
     grade_level: "Advanced",
@@ -32,7 +32,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-3",
     name: "Bob Johnson",
-    email: "bob.johnson@example.com",
+    email: "bob.johnson@e-broker.com",
     role: "student",
     enrollment_date: "2024-04-10",
     grade_level: "Beginner",
@@ -46,7 +46,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-4",
     name: "Emma Wilson",
-    email: "emma.wilson@example.com",
+    email: "emma.wilson@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-20",
     grade_level: "Intermediate",
@@ -60,7 +60,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-5",
     name: "Michael Brown",
-    email: "michael.brown@example.com",
+    email: "michael.brown@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-15",
     grade_level: "Beginner",
@@ -74,7 +74,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-6",
     name: "Sophia Martinez",
-    email: "sophia.martinez@example.com",
+    email: "sophia.martinez@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-05",
     grade_level: "Advanced",
@@ -88,7 +88,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-7",
     name: "William Davis",
-    email: "william.davis@example.com",
+    email: "william.davis@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-10",
     grade_level: "Intermediate",
@@ -102,7 +102,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-8",
     name: "Olivia Garcia",
-    email: "olivia.garcia@example.com",
+    email: "olivia.garcia@e-broker.com",
     role: "student",
     enrollment_date: "2023-12-20",
     grade_level: "Advanced",
@@ -116,7 +116,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-9",
     name: "James Anderson",
-    email: "james.anderson@example.com",
+    email: "james.anderson@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-25",
     grade_level: "Beginner",
@@ -130,7 +130,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-10",
     name: "Isabella Taylor",
-    email: "isabella.taylor@example.com",
+    email: "isabella.taylor@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-05",
     grade_level: "Intermediate",
@@ -144,7 +144,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-11",
     name: "Ethan Thomas",
-    email: "ethan.thomas@example.com",
+    email: "ethan.thomas@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-20",
     grade_level: "Advanced",
@@ -158,7 +158,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-12",
     name: "Mia Jackson",
-    email: "mia.jackson@example.com",
+    email: "mia.jackson@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-10",
     grade_level: "Beginner",
@@ -172,7 +172,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-13",
     name: "Alexander White",
-    email: "alexander.white@example.com",
+    email: "alexander.white@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-15",
     grade_level: "Intermediate",
@@ -186,7 +186,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-14",
     name: "Charlotte Harris",
-    email: "charlotte.harris@example.com",
+    email: "charlotte.harris@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-10",
     grade_level: "Advanced",
@@ -200,7 +200,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-15",
     name: "Daniel Martin",
-    email: "daniel.martin@example.com",
+    email: "daniel.martin@e-broker.com",
     role: "student",
     enrollment_date: "2024-04-01",
     grade_level: "Beginner",
@@ -214,7 +214,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-16",
     name: "Amelia Thompson",
-    email: "amelia.thompson@example.com",
+    email: "amelia.thompson@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-25",
     grade_level: "Intermediate",
@@ -228,7 +228,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-17",
     name: "Benjamin Lee",
-    email: "benjamin.lee@example.com",
+    email: "benjamin.lee@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-25",
     grade_level: "Advanced",
@@ -242,7 +242,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-18",
     name: "Harper Walker",
-    email: "harper.walker@example.com",
+    email: "harper.walker@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-20",
     grade_level: "Beginner",
@@ -256,7 +256,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-19",
     name: "Lucas Hall",
-    email: "lucas.hall@example.com",
+    email: "lucas.hall@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-01",
     grade_level: "Intermediate",
@@ -270,7 +270,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-20",
     name: "Evelyn Allen",
-    email: "evelyn.allen@example.com",
+    email: "evelyn.allen@e-broker.com",
     role: "student",
     enrollment_date: "2023-12-15",
     grade_level: "Advanced",
@@ -284,7 +284,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-21",
     name: "Mason Young",
-    email: "mason.young@example.com",
+    email: "mason.young@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-05",
     grade_level: "Beginner",
@@ -298,7 +298,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-22",
     name: "Ella King",
-    email: "ella.king@example.com",
+    email: "ella.king@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-30",
     grade_level: "Intermediate",
@@ -312,7 +312,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-23",
     name: "Logan Wright",
-    email: "logan.wright@example.com",
+    email: "logan.wright@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-18",
     grade_level: "Advanced",
@@ -326,7 +326,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-24",
     name: "Avery Lopez",
-    email: "avery.lopez@example.com",
+    email: "avery.lopez@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-28",
     grade_level: "Beginner",
@@ -340,7 +340,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-25",
     name: "Sebastian Hill",
-    email: "sebastian.hill@example.com",
+    email: "sebastian.hill@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-08",
     grade_level: "Intermediate",
@@ -354,7 +354,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-26",
     name: "Scarlett Scott",
-    email: "scarlett.scott@example.com",
+    email: "scarlett.scott@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-18",
     grade_level: "Advanced",
@@ -368,7 +368,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-27",
     name: "Jack Green",
-    email: "jack.green@example.com",
+    email: "jack.green@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-12",
     grade_level: "Beginner",
@@ -382,7 +382,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-28",
     name: "Victoria Adams",
-    email: "victoria.adams@example.com",
+    email: "victoria.adams@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-22",
     grade_level: "Intermediate",
@@ -396,7 +396,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-29",
     name: "Henry Baker",
-    email: "henry.baker@example.com",
+    email: "henry.baker@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-22",
     grade_level: "Advanced",
@@ -410,7 +410,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-30",
     name: "Grace Nelson",
-    email: "grace.nelson@example.com",
+    email: "grace.nelson@e-broker.com",
     role: "student",
     enrollment_date: "2024-04-05",
     grade_level: "Beginner",
@@ -424,7 +424,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-31",
     name: "Samuel Carter",
-    email: "samuel.carter@example.com",
+    email: "samuel.carter@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-28",
     grade_level: "Intermediate",
@@ -438,7 +438,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-32",
     name: "Chloe Mitchell",
-    email: "chloe.mitchell@example.com",
+    email: "chloe.mitchell@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-12",
     grade_level: "Advanced",
@@ -452,7 +452,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-33",
     name: "Owen Perez",
-    email: "owen.perez@example.com",
+    email: "owen.perez@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-18",
     grade_level: "Beginner",
@@ -466,7 +466,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-34",
     name: "Lily Roberts",
-    email: "lily.roberts@example.com",
+    email: "lily.roberts@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-12",
     grade_level: "Intermediate",
@@ -480,7 +480,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-35",
     name: "Wyatt Turner",
-    email: "wyatt.turner@example.com",
+    email: "wyatt.turner@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-28",
     grade_level: "Advanced",
@@ -494,7 +494,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-36",
     name: "Zoey Phillips",
-    email: "zoey.phillips@example.com",
+    email: "zoey.phillips@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-22",
     grade_level: "Beginner",
@@ -508,7 +508,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-37",
     name: "Levi Campbell",
-    email: "levi.campbell@example.com",
+    email: "levi.campbell@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-16",
     grade_level: "Intermediate",
@@ -522,7 +522,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-38",
     name: "Penelope Parker",
-    email: "penelope.parker@example.com",
+    email: "penelope.parker@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-08",
     grade_level: "Advanced",
@@ -536,7 +536,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-39",
     name: "Grayson Evans",
-    email: "grayson.evans@example.com",
+    email: "grayson.evans@e-broker.com",
     role: "student",
     enrollment_date: "2024-04-08",
     grade_level: "Beginner",
@@ -550,7 +550,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-40",
     name: "Layla Edwards",
-    email: "layla.edwards@example.com",
+    email: "layla.edwards@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-02",
     grade_level: "Intermediate",
@@ -564,7 +564,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-41",
     name: "Nathan Collins",
-    email: "nathan.collins@example.com",
+    email: "nathan.collins@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-16",
     grade_level: "Advanced",
@@ -578,7 +578,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-42",
     name: "Riley Stewart",
-    email: "riley.stewart@example.com",
+    email: "riley.stewart@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-26",
     grade_level: "Beginner",
@@ -592,7 +592,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-43",
     name: "Elijah Sanchez",
-    email: "elijah.sanchez@example.com",
+    email: "elijah.sanchez@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-06",
     grade_level: "Intermediate",
@@ -606,7 +606,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-44",
     name: "Nora Morris",
-    email: "nora.morris@example.com",
+    email: "nora.morris@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-14",
     grade_level: "Advanced",
@@ -620,7 +620,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-45",
     name: "Carter Rogers",
-    email: "carter.rogers@example.com",
+    email: "carter.rogers@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-30",
     grade_level: "Beginner",
@@ -634,7 +634,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-46",
     name: "Hannah Reed",
-    email: "hannah.reed@example.com",
+    email: "hannah.reed@e-broker.com",
     role: "student",
     enrollment_date: "2024-02-24",
     grade_level: "Intermediate",
@@ -648,7 +648,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-47",
     name: "Julian Cook",
-    email: "julian.cook@example.com",
+    email: "julian.cook@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-26",
     grade_level: "Advanced",
@@ -662,7 +662,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-48",
     name: "Aria Morgan",
-    email: "aria.morgan@example.com",
+    email: "aria.morgan@e-broker.com",
     role: "student",
     enrollment_date: "2024-04-12",
     grade_level: "Beginner",
@@ -676,7 +676,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-49",
     name: "Mateo Bell",
-    email: "mateo.bell@example.com",
+    email: "mateo.bell@e-broker.com",
     role: "student",
     enrollment_date: "2024-03-08",
     grade_level: "Intermediate",
@@ -690,7 +690,7 @@ export const mockStudents: StudentUser[] = [
   {
     id: "stud-50",
     name: "Hazel Murphy",
-    email: "hazel.murphy@example.com",
+    email: "hazel.murphy@e-broker.com",
     role: "student",
     enrollment_date: "2024-01-04",
     grade_level: "Advanced",

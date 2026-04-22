@@ -4,7 +4,7 @@ export const mockUsers: AdminUser[] = [
   {
     id: "admin-1",
     name: "Admin User",
-    email: "admin@example.com",
+    email: "admin@e-broker.com",
     role: "admin",
     permissions: ["all"],
     lastLogin: "2024-04-16",
@@ -15,7 +15,7 @@ export const mockUsers: AdminUser[] = [
   {
     id: "admin-2",
     name: "John Admin",
-    email: "john.admin@example.com",
+    email: "john.admin@e-broker.com",
     role: "admin",
     permissions: ["users.read", "users.write", "courses.read", "courses.write"],
     lastLogin: "2024-04-15",
@@ -26,7 +26,7 @@ export const mockUsers: AdminUser[] = [
   {
     id: "admin-3",
     name: "Sarah Manager",
-    email: "sarah.manager@example.com",
+    email: "sarah.manager@e-broker.com",
     role: "admin",
     permissions: ["users.read", "courses.read", "reports.read"],
     lastLogin: "2024-04-14",
@@ -37,7 +37,7 @@ export const mockUsers: AdminUser[] = [
   {
     id: "admin-4",
     name: "Mike Support",
-    email: "mike.support@example.com",
+    email: "mike.support@e-broker.com",
     role: "admin",
     permissions: ["users.read", "users.write"],
     lastLogin: "2024-04-10",
@@ -48,7 +48,7 @@ export const mockUsers: AdminUser[] = [
   {
     id: "admin-5",
     name: "Lisa Moderator",
-    email: "lisa.moderator@example.com",
+    email: "lisa.moderator@e-broker.com",
     role: "admin",
     permissions: ["courses.read", "reports.read"],
     lastLogin: "2024-03-28",

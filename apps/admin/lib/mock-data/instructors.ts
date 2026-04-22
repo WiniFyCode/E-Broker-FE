@@ -4,7 +4,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-1",
     name: "Dr. Sarah Johnson",
-    email: "sarah.johnson@example.com",
+    email: "sarah.johnson@e-broker.com",
     role: "instructor",
     specialization: "Web Development",
     bio: "10+ years experience in full-stack development and teaching. Specialized in React, Node.js, and modern web technologies.",
@@ -18,7 +18,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-2",
     name: "Michael Chen",
-    email: "michael.chen@example.com",
+    email: "michael.chen@e-broker.com",
     role: "instructor",
     specialization: "Data Science",
     bio: "PhD in Computer Science. Expert in machine learning, Python, and data visualization.",
@@ -32,7 +32,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-3",
     name: "Emily Rodriguez",
-    email: "emily.rodriguez@example.com",
+    email: "emily.rodriguez@e-broker.com",
     role: "instructor",
     specialization: "Mobile Development",
     bio: "Senior mobile developer with expertise in Flutter, React Native, and iOS/Android native development.",
@@ -46,7 +46,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-4",
     name: "David Kim",
-    email: "david.kim@example.com",
+    email: "david.kim@e-broker.com",
     role: "instructor",
     specialization: "DevOps & Cloud",
     bio: "AWS certified solutions architect. Specialized in Docker, Kubernetes, and CI/CD pipelines.",
@@ -60,7 +60,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-5",
     name: "Lisa Anderson",
-    email: "lisa.anderson@example.com",
+    email: "lisa.anderson@e-broker.com",
     role: "instructor",
     specialization: "UI/UX Design",
     bio: "Award-winning designer with 8 years of experience. Expert in Figma, Adobe XD, and design systems.",
@@ -74,7 +74,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-6",
     name: "James Wilson",
-    email: "james.wilson@example.com",
+    email: "james.wilson@e-broker.com",
     role: "instructor",
     specialization: "Cybersecurity",
     bio: "Certified ethical hacker and security consultant. Teaching network security and penetration testing.",
@@ -88,7 +88,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-7",
     name: "Maria Garcia",
-    email: "maria.garcia@example.com",
+    email: "maria.garcia@e-broker.com",
     role: "instructor",
     specialization: "Backend Development",
     bio: "Expert in Node.js, Python, and microservices architecture. Former tech lead at major tech companies.",
@@ -102,7 +102,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-8",
     name: "Robert Taylor",
-    email: "robert.taylor@example.com",
+    email: "robert.taylor@e-broker.com",
     role: "instructor",
     specialization: "Game Development",
     bio: "15 years in game industry. Specialized in Unity, Unreal Engine, and game design principles.",
@@ -116,7 +116,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-9",
     name: "Jennifer Lee",
-    email: "jennifer.lee@example.com",
+    email: "jennifer.lee@e-broker.com",
     role: "instructor",
     specialization: "Database Management",
     bio: "Database architect with expertise in SQL, NoSQL, MongoDB, and PostgreSQL optimization.",
@@ -130,7 +130,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-10",
     name: "Thomas Brown",
-    email: "thomas.brown@example.com",
+    email: "thomas.brown@e-broker.com",
     role: "instructor",
     specialization: "AI & Machine Learning",
     bio: "Research scientist specializing in deep learning, neural networks, and AI applications.",
@@ -144,7 +144,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-11",
     name: "Patricia Martinez",
-    email: "patricia.martinez@example.com",
+    email: "patricia.martinez@e-broker.com",
     role: "instructor",
     specialization: "Frontend Development",
     bio: "Vue.js and Angular expert. 7 years building scalable frontend applications.",
@@ -158,7 +158,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-12",
     name: "Christopher Davis",
-    email: "christopher.davis@example.com",
+    email: "christopher.davis@e-broker.com",
     role: "instructor",
     specialization: "Blockchain Development",
     bio: "Blockchain architect specializing in Ethereum, Solidity, and smart contract development.",
@@ -172,7 +172,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-13",
     name: "Nancy White",
-    email: "nancy.white@example.com",
+    email: "nancy.white@e-broker.com",
     role: "instructor",
     specialization: "Digital Marketing",
     bio: "Marketing strategist with focus on SEO, content marketing, and social media.",
@@ -186,7 +186,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-14",
     name: "Daniel Harris",
-    email: "daniel.harris@example.com",
+    email: "daniel.harris@e-broker.com",
     role: "instructor",
     specialization: "Software Testing",
     bio: "QA expert specializing in automated testing, TDD, and quality assurance best practices.",
@@ -200,7 +200,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-15",
     name: "Karen Thompson",
-    email: "karen.thompson@example.com",
+    email: "karen.thompson@e-broker.com",
     role: "instructor",
     specialization: "Product Management",
     bio: "Senior product manager with experience launching 20+ successful products.",
@@ -214,7 +214,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-16",
     name: "Steven Clark",
-    email: "steven.clark@example.com",
+    email: "steven.clark@e-broker.com",
     role: "instructor",
     specialization: "IoT Development",
     bio: "IoT specialist working with Arduino, Raspberry Pi, and embedded systems.",
@@ -228,7 +228,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-17",
     name: "Betty Lewis",
-    email: "betty.lewis@example.com",
+    email: "betty.lewis@e-broker.com",
     role: "instructor",
     specialization: "Business Analytics",
     bio: "Data analyst specializing in business intelligence, Tableau, and Power BI.",
@@ -242,7 +242,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-18",
     name: "Paul Walker",
-    email: "paul.walker@example.com",
+    email: "paul.walker@e-broker.com",
     role: "instructor",
     specialization: "System Architecture",
     bio: "Solutions architect with 12 years designing scalable distributed systems.",
@@ -256,7 +256,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-19",
     name: "Sandra Hall",
-    email: "sandra.hall@example.com",
+    email: "sandra.hall@e-broker.com",
     role: "instructor",
     specialization: "Content Writing",
     bio: "Professional writer and content strategist. Teaching technical writing and documentation.",
@@ -270,7 +270,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-20",
     name: "Kevin Allen",
-    email: "kevin.allen@example.com",
+    email: "kevin.allen@e-broker.com",
     role: "instructor",
     specialization: "Network Engineering",
     bio: "CCNA/CCNP certified. Expert in network design, routing, and switching.",
@@ -284,7 +284,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-21",
     name: "Michelle Young",
-    email: "michelle.young@example.com",
+    email: "michelle.young@e-broker.com",
     role: "instructor",
     specialization: "Graphic Design",
     bio: "Creative director with expertise in Adobe Creative Suite and brand identity design.",
@@ -298,7 +298,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-22",
     name: "Brian King",
-    email: "brian.king@example.com",
+    email: "brian.king@e-broker.com",
     role: "instructor",
     specialization: "Agile & Scrum",
     bio: "Certified Scrum Master teaching agile methodologies and project management.",
@@ -312,7 +312,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-23",
     name: "Dorothy Wright",
-    email: "dorothy.wright@example.com",
+    email: "dorothy.wright@e-broker.com",
     role: "instructor",
     specialization: "E-commerce",
     bio: "E-commerce consultant specializing in Shopify, WooCommerce, and online store optimization.",
@@ -326,7 +326,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-24",
     name: "George Lopez",
-    email: "george.lopez@example.com",
+    email: "george.lopez@e-broker.com",
     role: "instructor",
     specialization: "Video Production",
     bio: "Filmmaker and video editor teaching video production and post-production techniques.",
@@ -340,7 +340,7 @@ export const mockInstructors: InstructorUser[] = [
   {
     id: "inst-25",
     name: "Helen Hill",
-    email: "helen.hill@example.com",
+    email: "helen.hill@e-broker.com",
     role: "instructor",
     specialization: "Photography",
     bio: "Professional photographer teaching digital photography and photo editing.",

@@ -68,7 +68,7 @@ const data: User[] = [
   {
     id: "1",
     name: "John Doe",
-    email: "john@example.com",
+    email: "john@e-broker.com",
     role: "admin",
     status: "active",
     createdAt: "2024-01-15",
@@ -76,7 +76,7 @@ const data: User[] = [
   {
     id: "2",
     name: "Jane Smith",
-    email: "jane@example.com",
+    email: "jane@e-broker.com",
     role: "instructor",
     status: "active",
     createdAt: "2024-02-20",
@@ -84,7 +84,7 @@ const data: User[] = [
   {
     id: "3",
     name: "Bob Johnson",
-    email: "bob@example.com",
+    email: "bob@e-broker.com",
     role: "student",
     status: "active",
     createdAt: "2024-03-10",
@@ -92,7 +92,7 @@ const data: User[] = [
   {
     id: "4",
     name: "Alice Brown",
-    email: "alice@example.com",
+    email: "alice@e-broker.com",
     role: "student",
     status: "inactive",
     createdAt: "2024-01-25",
@@ -100,7 +100,7 @@ const data: User[] = [
   {
     id: "5",
     name: "Charlie Wilson",
-    email: "charlie@example.com",
+    email: "charlie@e-broker.com",
     role: "instructor",
     status: "active",
     createdAt: "2024-02-15",
