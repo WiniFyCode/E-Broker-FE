@@ -92,8 +92,8 @@ export function Header({ currentPath = "/" }: HeaderProps) {
 
   const filteredResults = searchQuery.length > 0
     ? searchResults.filter((result) =>
-        result.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      result.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     : []
 
   return (
@@ -129,11 +129,10 @@ export function Header({ currentPath = "/" }: HeaderProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-semibold transition-colors duration-200 ${
-                  isActive
+                className={`text-sm font-semibold transition-colors duration-200 ${isActive
                     ? "border-b-2 border-blue-700 pb-1 text-blue-700 dark:border-blue-400 dark:text-blue-400"
                     : "text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-300"
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -254,9 +253,9 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                       key={announcement.id}
                       className="flex gap-3.5 px-5 py-3.5 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50"
                     >
-                      <div className="mt-0.5 flex h-8.5 w-8.5 flex-shrink-0 items-center justify-center">
+                      {/* <div className="mt-0.5 flex h-8.5 w-8.5 flex-shrink-0 items-center justify-center">
                         {getAnnouncementIcon(announcement.type)}
-                      </div>
+                      </div> */}
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium text-slate-900 dark:text-slate-100">
                           {announcement.title}
@@ -429,11 +428,10 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`rounded-lg px-4 py-3 text-sm font-semibold transition-colors ${
-                      isActive
+                    className={`rounded-lg px-4 py-3 text-sm font-semibold transition-colors ${isActive
                         ? "bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
                         : "text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
-                    }`}
+                      }`}
                   >
                     {link.label}
                   </Link>
