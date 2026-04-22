@@ -1,4 +1,6 @@
-export interface CourseConfig {
+import type { PaginationQuery } from "./common.types"
+
+export interface ProgramConfig {
   themeColor?: string
   logo?: string
   passScore?: number // default is 70
@@ -7,7 +9,7 @@ export interface CourseConfig {
   isPublished?: boolean // default is false
 }
 
-export interface CreateCourseDto {
+export interface CreateProgramDto {
   tenantId: string
   title: string
   instructorId: string
@@ -15,16 +17,16 @@ export interface CreateCourseDto {
   thumbnail?: string
   categoryId?: string
   tags?: string[]
-  config?: CourseConfig
+  config?: ProgramConfig
 }
 
-export interface UpdateCourseBrandingDto {
+export interface UpdateProgramBrandingDto {
   themeColor?: string
   logo?: string
 }
 
-export interface Course {
-  id: string
+export interface Program {
+  _id: string
   tenantId: string
   title: string
   description?: string
@@ -32,10 +34,5 @@ export interface Course {
   categoryId?: string
   tags: string[]
   instructorId: string
-  config: CourseConfig
-}
-
-export interface PaginationQuery {
-  page?: number
-  limit?: number
+  config: ProgramConfig
 }

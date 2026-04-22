@@ -1,6 +1,12 @@
 "use client"
 
-import { PlayCircleIcon, ClockIcon, StarIcon, ArrowRightIcon } from "lucide-react"
+import {
+  PlayCircleIcon,
+  ClockIcon,
+  StarIcon,
+  ArrowRightIcon,
+} from "lucide-react"
+import { useRouter } from "next/navigation"
 import type { Course } from "@/lib/types"
 
 interface CourseCardProps {
@@ -8,13 +14,17 @@ interface CourseCardProps {
 }
 
 export function CourseCard({ course }: CourseCardProps) {
-  const buttonText =
-    course.isNearComplete ? "Hoàn thành khóa học" : "Tiếp tục học"
+  const router = useRouter()
+  const buttonText = course.isNearComplete
+    ? "Hoàn thành khóa học"
+    : "Tiếp tục học"
 
   return (
     <div className="group flex cursor-pointer flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-700/80 dark:bg-slate-900">
       {/* Course Thumbnail */}
-      <div className={`relative h-48 overflow-hidden bg-gradient-to-br ${course.gradientFrom} ${course.gradientTo}`}>
+      <div
+        className={`relative h-48 overflow-hidden bg-gradient-to-br ${course.gradientFrom} ${course.gradientTo}`}
+      >
         <img
           src={course.thumbnail}
           alt={course.title}
@@ -23,7 +33,7 @@ export function CourseCard({ course }: CourseCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
         {/* Progress Badge */}
-        <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 shadow-lg backdrop-blur-sm">
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 shadow-lg backdrop-blur-sm">
           <div className="relative h-8 w-8">
             <svg className="h-8 w-8 -rotate-90" viewBox="0 0 36 36">
               <circle
@@ -53,7 +63,7 @@ export function CourseCard({ course }: CourseCardProps) {
 
         {/* Near Complete Badge */}
         {course.isNearComplete && (
-          <div className="absolute left-3 top-3 flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white shadow-lg">
+          <div className="absolute top-3 left-3 flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white shadow-lg">
             <StarIcon className="h-3.5 w-3.5 fill-current" />
             Sắp hoàn thành
           </div>
@@ -94,7 +104,10 @@ export function CourseCard({ course }: CourseCardProps) {
         </div>
 
         {/* Action Button */}
-        <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:scale-[1.02] hover:bg-blue-700 hover:shadow-md active:scale-[0.98] dark:bg-blue-600 dark:hover:bg-blue-500">
+        <button
+          onClick={() => router.push(`/training/program/${course.id}`)}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 text-sm font-bold text-white shadow-sm transition-all duration-200 hover:scale-[1.02] hover:bg-blue-700 hover:shadow-md active:scale-[0.98] dark:bg-blue-600 dark:hover:bg-blue-500"
+        >
           <span>{buttonText}</span>
           <ArrowRightIcon className="h-4 w-4" />
         </button>

@@ -34,15 +34,27 @@ interface SpecializationAccordionProps {
 // Map icon theo index
 const getIconForSpecialization = (index: number): LucideIcon => {
   const icons: LucideIcon[] = [
-    Gavel, Map, TrendingUp, Calculator, Wallet,
-    Handshake, Megaphone, Receipt, FileText, MessageSquare,
+    Gavel,
+    Map,
+    TrendingUp,
+    Calculator,
+    Wallet,
+    Handshake,
+    Megaphone,
+    Receipt,
+    FileText,
+    MessageSquare,
   ]
   return icons[index % icons.length] ?? Gavel
 }
 
 const getAdvancedIcon = (index: number): LucideIcon => {
   const icons: LucideIcon[] = [
-    TrendingUp, FileText, Calculator, Wallet, MessageSquare,
+    TrendingUp,
+    FileText,
+    Calculator,
+    Wallet,
+    MessageSquare,
   ]
   return icons[index % icons.length] ?? TrendingUp
 }
@@ -65,51 +77,54 @@ function LessonItem({
   return (
     <Link
       href={`/training/program/${programId}/specialization/${specializationId}/lesson/${lesson.id}`}
-      className="flex items-center gap-4 p-4 rounded-xl hover:bg-[#f0f4ff] transition-colors group"
+      className="group flex items-center gap-4 rounded-xl p-4 transition-colors hover:bg-[#f0f4ff]"
     >
       {/* Số thứ tự */}
-      <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 ${isCompleted
-          ? "bg-[#0040a1] text-white"
-          : isInProgress
-            ? "bg-[#ff9800] text-white"
-            : "bg-[#e7e8e9] text-[#737785]"
-        }`}>
+      <div
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-bold ${
+          isCompleted
+            ? "bg-[#0040a1] text-white"
+            : isInProgress
+              ? "bg-[#ff9800] text-white"
+              : "bg-[#e7e8e9] text-[#737785]"
+        }`}
+      >
         {index + 1}
       </div>
 
       {/* Nội dung */}
-      <div className="flex-1 min-w-0">
-        <h4 className="font-semibold text-[#1a1d23] group-hover:text-[#0040a1] transition-colors truncate">
+      <div className="min-w-0 flex-1">
+        <h4 className="truncate font-semibold text-[#1a1d23] transition-colors group-hover:text-[#0040a1]">
           {lesson.title}
         </h4>
-        <div className="flex items-center gap-4 mt-1 text-xs text-[#737785]">
+        <div className="mt-1 flex items-center gap-4 text-xs text-[#737785]">
           <span className="flex items-center gap-1">
-            <BookOpen className="w-3 h-3" />
+            <BookOpen className="h-3 w-3" />
             {lesson.games?.length || 0} bài tập
           </span>
           <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
+            <Clock className="h-3 w-3" />
             ~15 phút
           </span>
         </div>
       </div>
 
       {/* Trạng thái */}
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex shrink-0 items-center gap-2">
         {isCompleted && (
           <span className="flex items-center gap-1 text-xs font-semibold text-[#0040a1]">
-            <CheckCircle2 className="w-4 h-4" />
+            <CheckCircle2 className="h-4 w-4" />
             Hoàn thành
           </span>
         )}
         {isInProgress && (
           <span className="flex items-center gap-1 text-xs font-semibold text-[#ff9800]">
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="h-4 w-4" />
             Đang học
           </span>
         )}
         {!isCompleted && !isInProgress && (
-          <Play className="w-5 h-5 text-[#737785] group-hover:text-[#0040a1] transition-colors" />
+          <Play className="h-5 w-5 text-[#737785] transition-colors group-hover:text-[#0040a1]" />
         )}
       </div>
     </Link>
@@ -131,66 +146,85 @@ function AccordionItem({
   defaultOpen?: boolean
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen)
-  const IconComponent = variant === "basic"
-    ? getIconForSpecialization(index)
-    : getAdvancedIcon(index)
+  const IconComponent =
+    variant === "basic"
+      ? getIconForSpecialization(index)
+      : getAdvancedIcon(index)
 
   const isCompleted = specialization.progress === 100
-  const isInProgress = specialization.progress > 0 && specialization.progress < 100
+  const isInProgress =
+    specialization.progress > 0 && specialization.progress < 100
   const isLocked = specialization.isLocked
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#e7e8e9]/50">
+    <div className="overflow-hidden rounded-2xl border border-[#e7e8e9]/50 bg-white shadow-sm">
       {/* Header */}
       <button
         onClick={() => !isLocked && setIsOpen(!isOpen)}
         disabled={isLocked}
-        className={`w-full flex items-center gap-4 p-5 text-left transition-colors ${isLocked
+        className={`flex w-full items-center gap-4 p-5 text-left transition-colors ${
+          isLocked
             ? "cursor-not-allowed bg-[#f8f9fa]"
-            : "hover:bg-[#f0f4ff] cursor-pointer"
-          }`}
+            : "cursor-pointer hover:bg-[#f0f4ff]"
+        }`}
       >
         {/* Icon */}
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${isLocked ? "bg-[#e7e8e9] grayscale opacity-50" : "bg-[#dae2ff]"
-          }`}>
-          <IconComponent className={`w-6 h-6 ${isLocked ? "text-[#737785]" : "text-[#0040a1]"}`} />
+        <div
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${
+            isLocked ? "bg-[#e7e8e9] opacity-50 grayscale" : "bg-[#dae2ff]"
+          }`}
+        >
+          <IconComponent
+            className={`h-6 w-6 ${isLocked ? "text-[#737785]" : "text-[#0040a1]"}`}
+          />
         </div>
 
         {/* Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className={`font-bold text-lg truncate ${isLocked ? "text-[#737785]" : "text-[#1a1d23]"}`}>
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex items-center gap-2">
+            <h3
+              className={`truncate text-lg font-bold ${isLocked ? "text-[#737785]" : "text-[#1a1d23]"}`}
+            >
               {specialization.title}
             </h3>
-            {isLocked && <Lock className="w-4 h-4 text-[#737785]" />}
+            {isLocked && <Lock className="h-4 w-4 text-[#737785]" />}
           </div>
-          <p className={`text-sm truncate ${isLocked ? "text-[#a0a3a8]" : "text-[#737785]"}`}>
+          <p
+            className={`truncate text-sm ${isLocked ? "text-[#a0a3a8]" : "text-[#737785]"}`}
+          >
             {specialization.description}
           </p>
         </div>
 
         {/* Progress & Toggle */}
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex shrink-0 items-center gap-4">
           {/* Progress bar */}
-          <div className="hidden sm:flex flex-col items-end gap-1">
+          <div className="hidden flex-col items-end gap-1 sm:flex">
             <div className="flex items-center gap-2 text-xs font-semibold">
-              <span className={
-                isCompleted ? "text-[#0040a1]" :
-                  isInProgress ? "text-[#ff9800]" :
-                    "text-[#737785]"
-              }>
+              <span
+                className={
+                  isCompleted
+                    ? "text-[#0040a1]"
+                    : isInProgress
+                      ? "text-[#ff9800]"
+                      : "text-[#737785]"
+                }
+              >
                 {specialization.progress}%
               </span>
               <span className="text-[#a0a3a8]">
                 {specialization.lessons.length} bài
               </span>
             </div>
-            <div className="w-24 h-1.5 bg-[#e7e8e9] rounded-full overflow-hidden">
+            <div className="h-1.5 w-24 overflow-hidden rounded-full bg-[#e7e8e9]">
               <div
-                className={`h-full rounded-full transition-all ${isCompleted ? "bg-[#0040a1]" :
-                    isInProgress ? "bg-[#ff9800]" :
-                      "bg-[#c3c6d6]"
-                  }`}
+                className={`h-full rounded-full transition-all ${
+                  isCompleted
+                    ? "bg-[#0040a1]"
+                    : isInProgress
+                      ? "bg-[#ff9800]"
+                      : "bg-[#c3c6d6]"
+                }`}
                 style={{ width: `${specialization.progress}%` }}
               />
             </div>
@@ -198,9 +232,14 @@ function AccordionItem({
 
           {/* Toggle */}
           {!isLocked && (
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${isOpen ? "bg-[#0040a1] text-white rotate-180" : "bg-[#e7e8e9] text-[#737785]"
-              }`}>
-              <ChevronDown className="w-5 h-5" />
+            <div
+              className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+                isOpen
+                  ? "rotate-180 bg-[#0040a1] text-white"
+                  : "bg-[#e7e8e9] text-[#737785]"
+              }`}
+            >
+              <ChevronDown className="h-5 w-5" />
             </div>
           )}
         </div>
@@ -209,7 +248,7 @@ function AccordionItem({
       {/* Lessons List */}
       {isOpen && !isLocked && (
         <div className="border-t border-[#e7e8e9]/50">
-          <div className="p-4 space-y-2">
+          <div className="space-y-2 p-4">
             {specialization.lessons.map((lesson, idx) => (
               <LessonItem
                 key={lesson.id}
@@ -226,8 +265,8 @@ function AccordionItem({
       {/* Locked overlay */}
       {isLocked && (
         <div className="px-5 pb-4">
-          <div className="bg-[#f8f9fa] rounded-xl p-4 text-center text-sm text-[#737785]">
-            <Lock className="w-4 h-4 inline mr-2" />
+          <div className="rounded-xl bg-[#f8f9fa] p-4 text-center text-sm text-[#737785]">
+            <Lock className="mr-2 inline h-4 w-4" />
             Hoàn thành các chuyên đề trước để mở khóa
           </div>
         </div>

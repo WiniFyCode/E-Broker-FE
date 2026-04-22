@@ -10,7 +10,7 @@ interface RecommendedCourseItemProps {
 
 function RecommendedCourseItem({ course }: RecommendedCourseItemProps) {
   return (
-    <div className="group flex cursor-pointer gap-4">
+    <Link href={`/training/program/${course.id}`} className="group flex cursor-pointer gap-4">
       <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md">
         <img
           src={course.thumbnail}
@@ -27,7 +27,7 @@ function RecommendedCourseItem({ course }: RecommendedCourseItemProps) {
           {course.level} • {course.modules} Modules
         </span>
       </div>
-    </div>
+    </Link>
   )
 }
 
