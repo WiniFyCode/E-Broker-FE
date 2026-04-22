@@ -5,6 +5,7 @@ import type {
   NotificationEventResponse,
   NotificationListQuery,
   QueueNotificationEventDto,
+  UnreadCountQuery,
   UnreadCountResponse,
 } from "../types/notifications.types"
 
@@ -17,19 +18,21 @@ export class NotificationsService extends BaseService {
     const query = new URLSearchParams()
     if (params?.page) query.set("page", String(params.page))
     if (params?.limit) query.set("limit", String(params.limit))
+    if (params?.tenantId) query.set("tenantId", params.tenantId)
     if (params?.userId) query.set("userId", params.userId)
-    if (typeof params?.isRead === "boolean") {
-      query.set("isRead", String(params.isRead))
-    }
     if (params?.type) query.set("type", params.type)
+    if (params?.status) query.set("status", params.status)
     const qs = query.toString()
     return this.client.get<Notification[]>(
       `/notifications${qs ? `?${qs}` : ""}`
     )
   }
 
-  getUnreadCount() {
-    return this.client.get<UnreadCountResponse>("/notifications/unread-count")
+  getUnreadCount(params: UnreadCountQuery) {
+    const query = new URLSearchParams()
+    query.set("userId", params.userId)
+    query.set("tenantId", params.tenantId)
+    return this.client.get<UnreadCountResponse>(`/notifications/unread-count?${query.toString()}`)
   }
 
   markRead(id: string) {

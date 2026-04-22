@@ -1,7 +1,7 @@
-import type { PaginationQuery } from "./courses.types"
+import type { PaginationQuery } from "./programs.types"
 
 export type NotificationType = "new_course" | "study_reminder" | "system"
-
+export type NotificationStatus = "queued" | "processing" | "sent" | "failed"
 export type NotificationChannel = "email" | "in_app"
 
 export interface CreateNotificationDto {
@@ -37,9 +37,15 @@ export interface Notification {
 }
 
 export interface NotificationListQuery extends PaginationQuery {
+  tenantId?: string
   userId?: string
-  isRead?: boolean
   type?: NotificationType
+  status?: NotificationStatus
+}
+
+export interface UnreadCountQuery {
+  userId: string
+  tenantId: string
 }
 
 export interface UnreadCountResponse {

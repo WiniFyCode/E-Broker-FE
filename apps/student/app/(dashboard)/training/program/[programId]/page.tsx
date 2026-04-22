@@ -1,32 +1,86 @@
-import { getProgramById } from "@/lib/training-data"
-import { Specialization } from "@/lib/training-types"
+"use client"
+
+import { use } from "react"
 import { notFound } from "next/navigation"
 import { ProgramHero } from "@/components/program-detail"
 import { SpecializationAccordion } from "@/components/program-detail"
+import { useProgram, useSpecializations } from "@workspace/ui/hooks/use-api"
+import type {
+  Program as TrainingProgram,
+  Specialization as TrainingSpecialization,
+} from "@/lib/training-types"
+import type {
+  Specialization as SdkSpecialization,
+  PaginatedResponse,
+} from "@workspace/sdk"
 
-export default async function ProgramDetailPage({
+export default function ProgramDetailPage({
   params,
 }: {
   params: Promise<{ programId: string }>
 }) {
-  const { programId } = await params
-  const program = getProgramById(programId)
+  const { programId } = use(params)
+  const {
+    data: program,
+    isLoading: isProgramLoading,
+    error: programError,
+  } = useProgram(programId)
+  const { data: specializations, isLoading: isSpecsLoading } =
+    useSpecializations(programId)
 
-  if (!program) {
+  if (isProgramLoading || isSpecsLoading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+      </div>
+    )
+  }
+
+  if (programError || !program) {
     notFound()
   }
 
-  const basicSpecializations = program.specializations.filter(
-    (s: Specialization) => s.type === "basic"
+  // Handle both array and paginated object responses
+  const specsList = Array.isArray(specializations)
+    ? specializations
+    : (specializations as unknown as PaginatedResponse<SdkSpecialization>)?.data ||
+      []
+
+  // Map SDK to Training types
+  const mappedSpecializations: TrainingSpecialization[] = specsList.map(
+    (s: SdkSpecialization) => ({
+    id: s.id,
+    title: s.title,
+    description: s.description || "",
+    type: s.type,
+    lessons: [], // We'd need to fetch lessons separately or expand SDK
+    isLocked: s.isLocked,
+    progress: 0,
+    isCompleted: false,
+  }))
+
+  const mappedProgram: TrainingProgram = {
+    id: program.id,
+    title: program.title,
+    description: program.description || "",
+    thumbnail: program.thumbnail || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop",
+    progress: 0,
+    totalSpecializations: mappedSpecializations.length,
+    completedSpecializations: 0,
+    specializations: mappedSpecializations,
+  }
+
+  const basicSpecializations = mappedSpecializations.filter(
+    (s) => s.type === "basic"
   )
-  const advancedSpecializations = program.specializations.filter(
-    (s: Specialization) => s.type === "advanced"
+  const advancedSpecializations = mappedSpecializations.filter(
+    (s) => s.type === "advanced"
   )
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen pb-32">
       <main className="pt-8 px-6 max-w-7xl mx-auto">
-        <ProgramHero program={program} />
+        <ProgramHero program={mappedProgram} />
 
         {/* Chuyên đề nền tảng với accordion */}
         <section className="mb-12">
@@ -45,7 +99,7 @@ export default async function ProgramDetailPage({
           </div>
           <SpecializationAccordion
             specializations={basicSpecializations}
-            programId={program.id}
+            programId={mappedProgram.id}
             variant="basic"
           />
         </section>
@@ -70,7 +124,7 @@ export default async function ProgramDetailPage({
           </div>
           <SpecializationAccordion
             specializations={advancedSpecializations}
-            programId={program.id}
+            programId={mappedProgram.id}
             variant="advanced"
           />
         </section>

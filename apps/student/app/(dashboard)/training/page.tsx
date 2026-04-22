@@ -1,4 +1,5 @@
-import { mockPrograms } from "@/lib/training-mock-data"
+"use client"
+
 import {
   TrainingHeader,
   FeaturedProgramCard,
@@ -7,10 +8,47 @@ import {
   ProgramCard,
   NewsletterSection,
 } from "@/components/training"
+import { usePrograms } from "@workspace/ui/hooks/use-api"
+import type { Program as TrainingProgram } from "@/lib/training-types"
+import type { Program as SdkProgram, PaginatedResponse } from "@workspace/sdk"
 
 export default function TrainingPage() {
-  const featuredProgram = mockPrograms[0]!
-  const otherPrograms = mockPrograms.slice(1)
+  const { data: programs, isLoading, error } = usePrograms({ page: 1, limit: 12 })
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 text-center text-red-500">
+        Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+      </div>
+    )
+  }
+
+  // Handle both array and paginated object responses
+  const programsList = Array.isArray(programs)
+    ? programs
+    : (programs as unknown as PaginatedResponse<SdkProgram>)?.data || []
+
+  const mappedPrograms: TrainingProgram[] = programsList.map((p: SdkProgram) => ({
+    id: p.id,
+    title: p.title,
+    description: p.description || "",
+    thumbnail: p.thumbnail || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070&auto=format&fit=crop",
+    progress: 0,
+    totalSpecializations: 0, // In reality, we'd need to fetch this or include in response
+    completedSpecializations: 0,
+    specializations: [],
+  }))
+
+  const featuredProgram = mappedPrograms[0]
+  const otherPrograms = mappedPrograms.slice(1)
 
   return (
     <div className="bg-[#f8f9fa]">
@@ -18,7 +56,7 @@ export default function TrainingPage() {
         <TrainingHeader />
 
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <FeaturedProgramCard program={featuredProgram} />
+          {featuredProgram && <FeaturedProgramCard program={featuredProgram} />}
 
           <div className="lg:col-span-4 space-y-8">
             <AchievementCard />

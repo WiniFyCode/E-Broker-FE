@@ -59,8 +59,9 @@ export interface GameConfig {
 }
 
 export interface Slide {
-  id?: string
-  courseId: string
+  id: string
+  programId: string
+  specializationId?: string
   lessonId?: string
   title?: string
   order: number

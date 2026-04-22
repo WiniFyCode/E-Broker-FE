@@ -1,4 +1,4 @@
-import type { PaginationQuery } from "./courses.types"
+import type { PaginationQuery } from "./programs.types"
 
 export interface CreateLessonDto {
   courseId: string
@@ -12,7 +12,7 @@ export interface UpdateLessonDto extends Partial<CreateLessonDto> {}
 
 export interface Lesson {
   id: string
-  courseId: string
+  specializationId: string
   title: string
   description?: string
   order: number

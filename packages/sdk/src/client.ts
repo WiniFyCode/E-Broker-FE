@@ -1,6 +1,7 @@
 import { ApiError } from "./types"
 import { AuthService } from "./services/auth.service"
-import { CoursesService } from "./services/courses.service"
+import { ProgramsService } from "./services/programs.service"
+import { SpecializationsService } from "./services/specializations.service"
 import { LessonsService } from "./services/lessons.service"
 import { MailsService } from "./services/mails.service"
 import { NotificationsService } from "./services/notifications.service"
@@ -18,7 +19,8 @@ export class ApiClient {
 
   // ─── Services ──────────────────────────────────────────────────────────────
   public readonly auth: AuthService
-  public readonly courses: CoursesService
+  public readonly programs: ProgramsService
+  public readonly specializations: SpecializationsService
   public readonly lessons: LessonsService
   public readonly mails: MailsService
   public readonly notifications: NotificationsService
@@ -35,7 +37,8 @@ export class ApiClient {
     this.baseUrl = baseUrl || (apiVersion ? `${apiUrl}/${apiVersion}` : apiUrl)
 
     this.auth = new AuthService(this)
-    this.courses = new CoursesService(this)
+    this.programs = new ProgramsService(this)
+    this.specializations = new SpecializationsService(this)
     this.lessons = new LessonsService(this)
     this.mails = new MailsService(this)
     this.notifications = new NotificationsService(this)
