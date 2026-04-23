@@ -92,7 +92,8 @@ const createMatchGame = (id: string, title: string): Game => ({
 const createLesson = (
   id: string,
   title: string,
-  gameCount: number = 5
+  gameCount: number = 5,
+  progress: number = 0
 ): Lesson => {
   const games: Game[] = []
   for (let i = 1; i <= gameCount; i++) {
@@ -110,9 +111,9 @@ const createLesson = (
     title,
     description: `Learn ${title}`,
     games,
-    progress: 0,
-    lastGameIndex: 0,
-    isCompleted: false,
+    progress,
+    lastGameIndex: progress === 100 ? games.length - 1 : Math.floor((progress / 100) * games.length),
+    isCompleted: progress === 100,
   }
 }
 
@@ -120,12 +121,20 @@ const createLesson = (
 const createBasicSpecialization = (
   id: string,
   title: string,
-  lessonCount: number = 8
+  lessonCount: number = 8,
+  lessonProgress?: number[] // Optional array of progress for each lesson
 ): Specialization => {
   const lessons: Lesson[] = []
   for (let i = 1; i <= lessonCount; i++) {
-    lessons.push(createLesson(`${id}-lesson-${i}`, `Lesson ${i}: ${title}`))
+    const progress = lessonProgress?.[i - 1] ?? 0
+    lessons.push(createLesson(`${id}-lesson-${i}`, `Lesson ${i}: ${title}`, 5, progress))
   }
+
+  // Calculate specialization progress
+  const completedLessons = lessons.filter(l => l.isCompleted).length
+  const inProgressLessons = lessons.filter(l => l.progress > 0 && !l.isCompleted).length
+  const totalProgress = lessons.reduce((acc, l) => acc + l.progress, 0)
+  const specProgress = Math.round(totalProgress / lessons.length)
 
   return {
     id,
@@ -134,8 +143,8 @@ const createBasicSpecialization = (
     type: "basic",
     lessons,
     isLocked: false,
-    progress: 0,
-    isCompleted: false,
+    progress: specProgress,
+    isCompleted: completedLessons === lessons.length,
   }
 }
 
@@ -174,7 +183,8 @@ export const mockPrograms: Program[] = [
     totalSpecializations: 14,
     completedSpecializations: 0,
     specializations: [
-      createBasicSpecialization("spec-1", "Cơ Bản Về Bất Động Sản"),
+      // First specialization with mixed progress: 3 completed, 1 in progress, 4 not started
+      createBasicSpecialization("spec-1", "Cơ Bản Về Bất Động Sản", 8, [100, 100, 100, 60, 0, 0, 0, 0]),
       createBasicSpecialization("spec-2", "Pháp Lý Nhà Đất"),
       createBasicSpecialization("spec-3", "Định Giá Bất Động Sản"),
       createBasicSpecialization("spec-4", "Kỹ Năng Thuyết Trình"),
